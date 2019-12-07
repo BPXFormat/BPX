@@ -1,0 +1,122 @@
+\section{BPX Type: Shader Package ('S')}
+
+\subsection{Overview}
+The Shader Package BPX is using 'S' as the type byte of BPX Main Header. This type provides optimized and efficient storage for rendering code intended to be executed on the GPU \cite{GPU}.
+\newline
+Below is a table describing the different sections to be expected in a BPXS:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
+    
+            \hline\hline
+            Shader & 0 & Yes & No \\
+            AssemblyDX & 1 & No & Yes \\
+            AssemblyGL & 2 & Yes & Yes \\
+            AssemblyVGL & 3 & No & Yes \\
+            AssemblyMSL & 4 & No & Yes \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+
+\subsubsection{Design decisions}
+The shader type has been designed to store different versions of a single shader but conpiled against different rendering APIs.\newline
+For this reason, each rendering API should load the shaders composing the program by referring to it's Assembly section.\newline
+The assembly section also contains required information when loading a shader program.\newline
+In order to account for cases where it is not possible to provide version for each rendering API of a given shader, the shader program BPX contains a bit mask field to indicate compatibility or incompatibility against a given rendering API.\newline
+For example a shader compiled under Linux won't have DirectX shader byte code, it can store the source code HLSL (High Level Shading Language is Microsoft's shading language for DirectX) however not all DirectX enabled systems can compile shaders on the fly.\newline
+In conclusion, for \textbf{better compatibility} it is recommended to build shaders under Windows, for the \textbf{best compatibility} a Mac will be needed in order to build shaders for MSL (Metal Shading Language is Apple's shading language for Metal API).
+
+\subsection{TypeExt}
+Contains information about the shader package.
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+    
+            \hline\hline
+            ShaderCount & Unsigned & 32 & Number of shaders in this package \\
+            CompatibilityFlags & Unsigned & 8 & Flags \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+
+\subsubsection{ShaderCount}
+The number of shaders contained in this shader package.
+
+\subsubsection{CompatibilityFlags}
+Bit mask based flags (or flags together). These flags are used to check if a given shader program can be used with the current configuration of hardware/driver/rendering implementation. By default packages compiled from BPSL will be compatible with OpenGL 3.0 and greater; DirectX 11 and 12 will be supported if the compiling machine has Windows and the DirectX SDK (the DirectX SDK is not available on Linux/Mac/etc).\newline
+Vulkan and Metal are currently not supported.\newline
+Currently the only supported flags are:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
+    
+            \hline\hline
+            DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
+            OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
+            Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
+            Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+
+\subsection{Shader}
+Contains shader data for a single rendering API...\newline
+A shader package can contain multiple shaders.
+
+\subsection{AssemblyDX (Currently not supported)}
+Contains shader list, order and other linking information for use by a DirectX \cite{DirectX} implementation.
+
+\subsection{AssemblyGL}
+Contains shader list, order and other linking information for use by an OpenGL \cite{OpenGL} implementation.\newline
+Below is a table describing the data structure to expect in this section:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+    
+            \hline\hline
+            MinVersion & Unsigned & 32 & Minimum supported version \\
+            VertexShaderID & Unsigned & 16 & Vertex shader section index \\
+            GeometryShaderID & Unsigned & 16 & Geometry shader section index \\
+            PixelShaderID & Unsigned & 16 & Pixel shader section index \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+All indexes are given as positions in the Section Header Table.
+
+\subsubsection{MinVersion}
+Minimum required version of OpenGL to run this shader program:
+\begin{itemize}
+    \item For OpenGL 3.0, write 30
+    \item For OpenGL 4.0, write 40
+    \item For OpenGL 4.5, write 45
+\end{itemize}
+
+\subsection{AssemblyVGL (Currently not supported)}
+Contains shader list, order and other linking information for use by a Vulkan \cite{Vulkan} implementation.
+
+\subsection{AssemblyMSL (Currently not supported)}
+Contains shader list, order and other linking information for use by a Metal \cite{Metal} implementation.

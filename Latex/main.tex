@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[
+    type={CC},
+    modifier={by-sa},
+    version={4.0},
+]{doclicense}
+
+\title{
+    \huge \textbf{BPX Format} \\
+    \large \url{https://github.com/BlockProject3D/}
+}
+\author{Yuri Edward}
+\date{October 2019}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\include{styling}
+
+\begin{document}
+
+\maketitle
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=1.1]{logo}
+    \label{fig:logo}
+\end{figure}
+
+\newpage
+
+\begin{abstract}
+    This document describes the BPX format, providing an optimized, flexible and DRM \cite{DRM} free storage designed for various multimedia content types commonly used in 3D applications.
+\end{abstract}
+\doclicenseThis
+
+\include{Common/Introduction}
+\include{Common/History}
+\include{Common/Comparison}
+\include{Common/General}
+\include{Common/Header}
+\include{Common/SectionHeader}
+
+\include{Types/Texture}
+\include{Types/Model}
+\include{Types/Shader}
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

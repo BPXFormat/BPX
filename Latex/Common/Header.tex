@@ -1,0 +1,56 @@
+\section{BPX Main Header}
+The BPX Main Header describes general information about the container and the contained data.\newline
+This section is \textbf{not compressable}.\newline
+Below is a table describing the different fields to be expected in the header:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+    
+            \hline\hline
+            Signature & String & 24 & File signature; always "BPX" \\
+            Type & Unsigned & 8 & Type of BPX \\
+            Chksum & Unsigned & 32 & Checksum \\
+            FileSize & Unsigned & 64 & Size of file after compression \\
+            SectionNum & Unsigned & 16 & Number of sections \\
+            Version & Unsigned & 8 & Version of format \\
+            TypeExt & Unspecified & 40 & Extension space for various BPX types \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+
+\subsection{Signature}
+Three characters to describe the file when open in a text/hex editor
+
+\subsection{Type}
+The type of BPX. This is used to describe what type of sections to expect in the file.\newline
+Currently only the following are supported:
+\begin{itemize}
+    \item 'T' for Texture
+    \item 'M' for Model
+    \item 'S' for Shader
+    \item 'C' for Scene
+    \item 'P' for Package
+\end{itemize}
+Here the characters between single quotes are to interpreted as their byte representation in ASCII encoding.
+
+\subsection{Version}
+Version of the file, the currently only available version of the format is 0.
+
+\subsection{SectionNum}
+Number of sections in the file.
+
+\subsection{Chksum}
+Checksum calculated with the help of a CRC32 algorithm. This should integrate both the header (except for the Chksum field) and the file content after compression.
+
+\subsection{FileSize}
+The file size field corresponds to the total size of the file minus the size of the header in bytes after compression; this is used as an additional security over the integrity of the file. It can also be used to check the remaining number of bytes in a network based streaming application.
+
+\subsection{TypeExt}
+The TypeExt field provides 40 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
+All unused space in this field should be 0.

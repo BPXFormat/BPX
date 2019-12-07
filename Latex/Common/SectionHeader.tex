@@ -1,0 +1,53 @@
+\section{BPX Section Header Table}
+The BPX Section Header Table is an array of data structures describing important information for each section present in the file. It is located after the BPX Main Header.\newline
+The size of this array is determined by the SectionNum field in the BPX Main Header. The array is expected to be contiguous.\newline
+This section is \textbf{not compressable}.
+
+\subsection{BPX Section Header}
+Below is a table describing the feilds to expect in a BPX Section Header:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+    
+            \hline\hline
+            Pointer & Unsigned & 64 & Offset in bytes from the beginning of the file \\
+            Size & Unsigned & 32 & Size in bytes of section \\
+            Type & Unsigned & 8 & Type of Section \\
+            Flags & Unsigned & 8 & Flags for the current section \\
+            Reserved & Unspecified & 16 & Blank, always 0 \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+
+\subsubsection{Size}
+Size in bytes of the content for a given section excluding Section Header.
+
+\subsubsection{Pointer}
+Position in bytes in the file where the content for a given section should be found.
+
+\subsubsection{Type}
+An integer to represent the type of section.
+
+\subsubsection{Flags}
+Bit mask based flags (or flags together). Currently the only supported flags are:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
+    
+            \hline\hline
+            Compressed & 0x2 & Indicates the section is compressed using the zlib algorithm \\
+            \hline
+        \end{tabular}
+    }
+\end{center}

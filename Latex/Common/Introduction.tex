@@ -1,0 +1,17 @@
+\section{Introduction}
+When developing a 3D game engine often comes the problem of dealing with game modifications (mods). For example one might consider how easy would it be for the end player to add custom assets, change existing assets; would the end player need to agree against certain complex licences or if it is even legally allowed to modify the content of certain asset files.\newline
+Here the term asset refers to various type of file loaded by the game for a specific game world or for the entire game. These resources can be multimedia files, scripts, configurations and other formats the game engine would use.\newline
+This format provides an alternative to existing asset formats geared towards the development of highly moddable (modify the game; add new assets, remove existing assets, change existing assets) and cross platform 3D games.\newline
+The benefits are:
+\begin{itemize}
+    \item Open source with a permissive licence.\newline
+    Redistribute source code, allow improvements of the format by others.
+    \item DRM \cite{DRM} free.\newline
+    Avoid licensing problems and restrictions. DRM stands for Digital Rights Management and is used to control how the user is allowed to interact with certain multimedia content. In moddable game DRM usually restricts the user from modifying existing assets.
+    \item Flexible.\newline
+    Designed for providing support for moddability. The nature of container allows support for all kind of multimedia resources used in a typical real-time 3D application.
+    \item Optimized for 3D APIs such as OpenGL \cite{OpenGL}, DirectX \cite{DirectX}, Vulkan \cite{Vulkan}\newline
+    Certain types of BPX uses some assumptions on the input data in order to reduce pre-process time when loading assets in a typical real time rendering engine.
+    \item Cross platform.\newline
+    Can store data for compatibility over multiple platforms within a single file due to its nature of containers.
+\end{itemize}

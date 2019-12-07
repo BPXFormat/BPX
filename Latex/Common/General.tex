@@ -1,0 +1,35 @@
+\section{General}
+The format is based on the idea of a container with a reusable main header that can be extended for the different applications.\newline
+The following assumptions are used:
+\begin{itemize}
+    \item A byte is assumed to be 8 bits.
+    \item The sizes are expressed in bits in the entire document.
+    \item The byte order in a BPX file should be \textbf{little endian} to match most of current hardware/software architectures, and then avoid a pre-processing step when loading the file.
+    \item A transformation is stored in terms of float to match most current rendering APIs.
+    \item The coordinate system used for this format is assumed to be left handed with the Z axis to be pointing upward.
+\end{itemize}
+Description of the coordinate system:
+\begin{equation}
+    Left =
+    \begin{pmatrix}
+        1 \\
+        0 \\
+        0
+    \end{pmatrix}
+    Forward =
+    \begin{pmatrix}
+        0 \\
+        1 \\
+        0
+    \end{pmatrix}
+    Up =
+    \begin{pmatrix}
+        0 \\
+        0 \\
+        1
+    \end{pmatrix}
+\end{equation}
+The TypeExt section available in certain BPX types describes what fields to expect in the 40 bits of extension located in the BPX Main Header.
+
+\section{Padding rules}
+All data structures exposed in this format specification are padded to comply with major C/C++ compilers: Visual C++, GCC and Clang.
