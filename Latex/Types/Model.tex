@@ -214,10 +214,10 @@ We assume the total size required to store the full FrameArray is given by the f
 \end{equation}
 where $F$ is the total amount of frames, $B$ the number of bone updates per frame and $B_s$ is the size of a single bone update structure.\newline
 We previously indicated that a bone updated is determined by a transformation matrix in homogeneous coordinate space \cite{HomogeneousCoordinates}, that means it is exactly $512bits$ or $64bytes$.\newline
-Of course in a real application, it is very unlikely to have every frame in the timeline requiring updated on every bone.\newline
+Of course in a real application, it is very unlikely to have every frame in the timeline requiring update on every bone.\newline
 \newline\textbf{Worst case scenario}\newline
 We assume the total animation time won't exceed $4$ minutes.
-We showed earlier the theoretical maximum bone limit is $1024$.\newline
+We showed earlier that the theoretical maximum bone limit is $1024$.\newline
 For the frame rate we choose $60$, that means each second $60$ frames in this FrameArray have to be rendered.\newline
 The total amount of frames to store is $60 \times 4 \times 60 = 14400frames$.\newline
 The total size required to save a model assuming each frame requires dependency over exactly all bones is $14400 \times 1024 \times 512 = 7549747200bits = 943718400bytes$. That is approximately $944Mb$.\newline
@@ -225,7 +225,9 @@ The total size required to save a model assuming each frame requires dependency 
 Of course having $1024$ bones in one model is unlikely to happen. This is why we want to have an average estimation on the size required to store the FrameArray section.\newline
 On average, the amount of bones per animated model won't exceed $50$ bones.\newline
 On average, each frame will update at most $10$ bones.\newline
-On average, the frame rate of a 3D model animation will be $30$.\newline
+On average, the frame rate of a 3D model animation will be $30FPS$.\newline
 On average, the total animation time won't exceed $2$ minutes
 The total amount of frames to store is $30 \times 2 \times 60 = 3600frames$.\newline
-The total size required to save a model assuming each frame requires dependency over exactly all bones is $3600 \times 10 \times 512 = 18432000bits = 2304000bytes$. That is approximately $2Mb$.
+The total size required to save the FrameArray of a model assuming each frame requires dependency over exactly all bones is $3600 \times 10 \times 512 = 18432000bits = 2304000bytes$. That is approximately $2Mb$.\newline
+\newline
+In conclusion the FrameArray section \textbf{should be compressed} to reduce the storage space consumed by a single model asset on disk. When loading the model in RAM one might consider adding some compression or supporting a lower limit than 1024 bones.
