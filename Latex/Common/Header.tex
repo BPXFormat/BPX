@@ -23,6 +23,14 @@ Below is a table describing the different fields to be expected in the header:
         \end{tabular}
     }
 \end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=0.73em]{64}
+        \bitheader{0-63} \\
+        \bitbox{24}{Signature} & \bitbox{8}{Type} & \bitbox{32}{Chksum} \\
+        \bitbox{64}{FileSize} \\
+        \bitbox{16}{SectionNum} & \bitbox{8}{Version} & \bitbox{40}{TypeExt}
+    \end{bytefield}
+\end{center}
 
 \subsection{Signature}
 Three characters to describe the file when open in a text/hex editor

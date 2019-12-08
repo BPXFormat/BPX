@@ -50,6 +50,15 @@ Contains information about the shader package.
         \end{tabular}
     }
 \end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.2em]{32}
+        \bitheader{0-31} \\
+        \begin{rightwordgroup}{40 bits}
+            \bitbox{32}{ShaderCount} \\
+            \bitbox{8}{CompatibilityFlags}
+        \end{rightwordgroup}
+    \end{bytefield}
+\end{center}
 
 \subsubsection{ShaderCount}
 The number of shaders contained in this shader package.
@@ -101,9 +110,18 @@ Below is a table describing the data structure to expect in this section:
             VertexShaderID & Unsigned & 16 & Vertex shader section index \\
             GeometryShaderID & Unsigned & 16 & Geometry shader section index \\
             PixelShaderID & Unsigned & 16 & Pixel shader section index \\
+            Reserved & Unspecified & 16 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
+\end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.4em]{32}
+        \bitheader{0-31} \\
+        \bitbox{32}{MinVersion} \\
+        \bitbox{16}{VertexShaderId} & \bitbox{16}{GeometryShaderId} \\
+        \bitbox{16}{PixelShaderId} & \bitbox{16}{Reserved}
+    \end{bytefield}
 \end{center}
 All indexes are given as positions in the Section Header Table.
 

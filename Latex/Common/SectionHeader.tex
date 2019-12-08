@@ -24,6 +24,13 @@ Below is a table describing the feilds to expect in a BPX Section Header:
         \end{tabular}
     }
 \end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=0.73em]{64}
+        \bitheader{0-63} \\
+        \bitbox{64}{Pointer} \\
+        \bitbox{32}{Size} & \bitbox{8}{Type} & \bitbox{8}{Flags} &     \bitbox{16}{Reserved}
+    \end{bytefield}
+\end{center}
 
 \subsubsection{Size}
 Size in bytes of the content for a given section excluding Section Header.

@@ -50,6 +50,13 @@ The header data structure is given by the following table:
         \end{tabular}
     }
 \end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.5em]{16}
+        \bitheader{0-15} \\
+        \bitbox{16}{VertexSize} \\
+        \bitbox{8}{NumComponents} & \bitbox{8}{Reserved}
+    \end{bytefield}
+\end{center}
 Each vertex component is represented using the following data structure:
 \begin{center}
     {
@@ -66,6 +73,12 @@ Each vertex component is represented using the following data structure:
             \hline
         \end{tabular}
     }
+\end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=2em]{8}
+        \bitheader{0-7} \\
+        \bitbox{4}{Type} & \bitbox{4}{Size} \\
+    \end{bytefield}
 \end{center}
 
 \subsubsection{VertexSize}
@@ -120,6 +133,13 @@ The header data structure is described in the following table:
         \end{tabular}
     }
 \end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.1em]{32}
+        \bitheader{0-31} \\
+        \bitbox{32}{Material} \\
+        \bitbox{32}{VertexCount}
+    \end{bytefield}
+\end{center}
 
 \subsubsection{Material}
 This field is a pointer to a null terminated string in the Strings section that is used to identify the Engine asset path of the default material to apply when rendering this vertex array.
@@ -171,6 +191,13 @@ Each bone in the array following the header is represented by the following data
             \hline
         \end{tabular}
     }
+\end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.1em]{32}
+        \bitheader{0-31} \\
+        \bitbox{32}{InitTransform [16]} \\
+        \bitbox{32}{Name}
+    \end{bytefield}
 \end{center}
 
 \subsubsection{BoneCount}
