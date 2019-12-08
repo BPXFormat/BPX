@@ -229,9 +229,19 @@ The array should be organized as the following diagram describes:
     \label{fig:FrameArray_Diagram}
     \caption{Diagram for organizing frame array}
 \end{figure}
+\newline
+A single animation in a 3D model is usualy a set of actions. For example consider the following set of actions on a 3D human based model:
+\begin{itemize}
+    \item move left leg
+    \item move right leg
+    \item move left arm
+    \item move right arm
+\end{itemize}
+This set of actions could be grouped together in one animation named walking or running.\newline
+We call total animation time, the total time needed to express all animations for a single 3D model.
 
 \subsubsection{Design decision}
-The majority of mainstream formats represents animated models using key frames, that is storing only determinant changes in the model and interpolating intermediate frames at runtime. In BPX type M each frame is stored in the file to allow for any interpolation method, that is the interpolation if there's any is defined by the exporter of that model. The engine runtime does not have to provide any interpolation function for BPX type M.\newline
+The majority of mainstream formats represents animated models using key frames, that is storing only determinant changes in the model and interpolating intermediate frames at runtime (either when loading the file or while rendering). In BPX type M each frame is stored in the file to allow for any interpolation method, that is the interpolation if there's any is defined by the exporter of that model. The engine runtime does not have to provide any interpolation function for BPX type M.\newline
 This change grants the \textbf{flexibility} of using any interpolation functions even user defined.
 
 \subsubsection{Analysis on theoretical required storage size}

@@ -90,8 +90,37 @@ Currently the only supported flags are:
 Contains shader data for a single rendering API...\newline
 A shader package can contain multiple shaders.
 
-\subsection{AssemblyDX (Currently not supported)}
+\subsection{AssemblyDX}
 Contains shader list, order and other linking information for use by a DirectX \cite{DirectX} implementation.
+Below is a table describing the data structure to expect in this section:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+    
+            \hline\hline
+            MinVersion & Unsigned & 32 & Minimum supported version \\
+            VertexShaderID & Unsigned & 16 & Vertex shader section index \\
+            GeometryShaderID & Unsigned & 16 & Geometry shader section index \\
+            PixelShaderID & Unsigned & 16 & Pixel shader section index \\
+            Reserved & Unspecified & 16 & Blank, always 0 \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.4em]{32}
+        \bitheader{0-31} \\
+        \bitbox{32}{MinVersion} \\
+        \bitbox{16}{VertexShaderId} & \bitbox{16}{GeometryShaderId} \\
+        \bitbox{16}{PixelShaderId} & \bitbox{16}{Reserved}
+    \end{bytefield}
+\end{center}
+All indexes are given as positions in the Section Header Table.
 
 \subsection{AssemblyGL}
 Contains shader list, order and other linking information for use by an OpenGL \cite{OpenGL} implementation.\newline
