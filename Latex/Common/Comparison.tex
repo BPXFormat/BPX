@@ -10,16 +10,16 @@ Below is a non-exhaustive table showing the differences between the idea of BPX 
             \textbf{Name} & \textbf{Open} & \textbf{DRM} & \textbf{Flexible} & \textbf{Optimized} & \textbf{Compat.} \\
     
             \hline\hline
-            FBX & No & No & No & Yes & Partial \\
-            Unreal & No & Yes & Yes & Yes & Partial \\
-            Unity & No & Yes & Partial & Yes & Partial \\
-            OBJ & Yes & No & No & No & Yes \\
+            FBX & \cellcolor{red}No & \cellcolor{green}No & \cellcolor{red}No & \cellcolor{green}Yes & \cellcolor{yellow}Partial \\
+            Unreal & \cellcolor{red}No & \cellcolor{red}Yes & \cellcolor{green}Yes & \cellcolor{green}Yes & \cellcolor{yellow}Partial \\
+            Unity & \cellcolor{red}No & \cellcolor{red}Yes & \cellcolor{yellow}Partial & \cellcolor{green}Yes & \cellcolor{yellow}Partial \\
+            OBJ & \cellcolor{green}Yes & \cellcolor{green}No & \cellcolor{red}No & \cellcolor{red}No & \cellcolor{green}Yes \\
             \hline
         \end{tabular}
     }
 \end{center}
 \begin{itemize}
-    \item FBX: It is possible to save files as Text based FBX however no open documentations exists for the format. The binary FBX requires the use of a closed source library FBX supports Windows without issues however getting the SDK to work different platforms might be an issue.\newline
+    \item FBX: It is possible to save files as Text based FBX however no open documentations exists for the format. The binary FBX requires the use of a closed source library FBX supports Windows without issues however getting the SDK to work on different platforms might be an issue.\newline
     FBX is designed to support 3D models.
     \item The source code of Unreal can be accessed if you are agree to certain licences which prohibits the redistribution of the editor source code in the game preventing the use of Unreal's format as a base to support modding. Unreal does also not provide easy installations under Linux.\newline
     Unreal is also using a unified format for all assets of the game. It has support for modding however the modder is required to agree to licences and to download the full SDK.
