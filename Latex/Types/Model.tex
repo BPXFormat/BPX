@@ -258,7 +258,7 @@ We showed earlier that the theoretical maximum bone limit is $1024$.\newline
 For the frame rate we choose $60$, that means each second $60$ frames in this FrameArray have to be rendered.\newline
 The total amount of frames to store is $60 \times 4 \times 60 = 14400frames$.\newline
 The total size required to save a model assuming each frame requires dependency over exactly all bones is $14400 \times 1024 \times 512 = 7549747200bits = 943718400bytes$. That is approximately $944Mb$.\newline
-\newline\textbf{Avaerage case scenario}\newline
+\newline\textbf{Average case scenario}\newline
 Of course having $1024$ bones in one model is unlikely to happen. This is why we want to have an average estimation on the size required to store the FrameArray section.\newline
 On average, the amount of bones per animated model won't exceed $50$ bones.\newline
 On average, each frame will update at most $10$ bones.\newline
