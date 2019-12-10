@@ -1,6 +1,7 @@
 \section{BPX Section Header Table}
 The BPX Section Header Table is an array of data structures describing important information for each section present in the file. It is located after the BPX Main Header.\newline
 The size of this array is determined by the SectionNum field in the BPX Main Header. The array is expected to be contiguous.\newline
+Certain types of BPX expects to be able to index sections in this table using positions. For that reason, the array is expected to be 1-indexed to allow for a value of 0 to represent a null or non-existent section.\newline
 This section is \textbf{not compressable}.
 
 \subsection{BPX Section Header}

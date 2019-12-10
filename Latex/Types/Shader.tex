@@ -14,11 +14,11 @@ Below is a table describing the different sections to be expected in a BPXS:
             \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
     
             \hline\hline
-            Shader & 0 & Yes & No \\
-            AssemblyDX & 1 & No & Yes \\
-            AssemblyGL & 2 & Yes & Yes \\
-            AssemblyVGL & 3 & No & Yes \\
-            AssemblyMSL & 4 & No & Yes \\
+            Shader & 1 & Yes & No \\
+            AssemblyDX & 2 & No & Yes \\
+            AssemblyGL & 3 & Yes & Yes \\
+            AssemblyVGL & 4 & No & Yes \\
+            AssemblyMSL & 5 & No & Yes \\
             \hline
         \end{tabular}
     }
@@ -46,6 +46,7 @@ Contains information about the shader package.
             \hline\hline
             ShaderCount & Unsigned & 32 & Number of shaders in this package \\
             CompatibilityFlags & Unsigned & 8 & Flags \\
+            Reserved & Unspecified & 24 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
@@ -53,9 +54,9 @@ Contains information about the shader package.
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
-        \begin{rightwordgroup}{40 bits}
+        \begin{rightwordgroup}{64 bits}
             \bitbox{32}{ShaderCount} \\
-            \bitbox{8}{CompatibilityFlags}
+            \bitbox{8}{CompatibilityFlags} & \bitbox{24}{Reserved}
         \end{rightwordgroup}
     \end{bytefield}
 \end{center}
@@ -104,10 +105,9 @@ Below is a table describing the data structure to expect in this section:
     
             \hline\hline
             MinVersion & Unsigned & 32 & Minimum supported version \\
-            VertexShaderID & Unsigned & 16 & Vertex shader section index \\
-            GeometryShaderID & Unsigned & 16 & Geometry shader section index \\
-            PixelShaderID & Unsigned & 16 & Pixel shader section index \\
-            Reserved & Unspecified & 16 & Blank, always 0 \\
+            VertexShaderID & Unsigned & 32 & Vertex shader section index \\
+            GeometryShaderID & Unsigned & 32 & Geometry shader section index \\
+            PixelShaderID & Unsigned & 32 & Pixel shader section index \\
             \hline
         \end{tabular}
     }
@@ -116,8 +116,9 @@ Below is a table describing the data structure to expect in this section:
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\
         \bitbox{32}{MinVersion} \\
-        \bitbox{16}{VertexShaderId} & \bitbox{16}{GeometryShaderId} \\
-        \bitbox{16}{PixelShaderId} & \bitbox{16}{Reserved}
+        \bitbox{32}{VertexShaderId} \\
+        \bitbox{32}{GeometryShaderId} \\
+        \bitbox{32}{PixelShaderId}
     \end{bytefield}
 \end{center}
 All indexes are given as positions in the Section Header Table.
@@ -136,10 +137,10 @@ Below is a table describing the data structure to expect in this section:
     
             \hline\hline
             MinVersion & Unsigned & 32 & Minimum supported version \\
-            VertexShaderID & Unsigned & 16 & Vertex shader section index \\
-            GeometryShaderID & Unsigned & 16 & Geometry shader section index \\
-            PixelShaderID & Unsigned & 16 & Pixel shader section index \\
-            Reserved & Unspecified & 16 & Blank, always 0 \\
+            VertexShaderID & Unsigned & 32 & Vertex shader section index \\
+            GeometryShaderID & Unsigned & 32 & Geometry shader section index \\
+            PixelShaderID & Unsigned & 32 & Pixel shader section index \\
+            Reserved & Unspecified & 32 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
@@ -148,8 +149,9 @@ Below is a table describing the data structure to expect in this section:
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\
         \bitbox{32}{MinVersion} \\
-        \bitbox{16}{VertexShaderId} & \bitbox{16}{GeometryShaderId} \\
-        \bitbox{16}{PixelShaderId} & \bitbox{16}{Reserved}
+        \bitbox{32}{VertexShaderId} \\
+        \bitbox{32}{GeometryShaderId} \\
+        \bitbox{32}{PixelShaderId}
     \end{bytefield}
 \end{center}
 All indexes are given as positions in the Section Header Table.

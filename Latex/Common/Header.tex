@@ -16,9 +16,9 @@ Below is a table describing the different fields to be expected in the header:
             Type & Unsigned & 8 & Type of BPX \\
             Chksum & Unsigned & 32 & Checksum \\
             FileSize & Unsigned & 64 & Size of file after compression \\
-            SectionNum & Unsigned & 16 & Number of sections \\
-            Version & Unsigned & 8 & Version of format \\
-            TypeExt & Unspecified & 40 & Extension space for various BPX types \\
+            SectionNum & Unsigned & 32 & Number of sections \\
+            Version & Unsigned & 32 & Version of format \\
+            TypeExt & Unspecified & 64 & Extension space for various BPX types \\
             \hline
         \end{tabular}
     }
@@ -28,7 +28,8 @@ Below is a table describing the different fields to be expected in the header:
         \bitheader{0-63} \\
         \bitbox{24}{Signature} & \bitbox{8}{Type} & \bitbox{32}{Chksum} \\
         \bitbox{64}{FileSize} \\
-        \bitbox{16}{SectionNum} & \bitbox{8}{Version} & \bitbox{40}{TypeExt}
+        \bitbox{32}{SectionNum} & \bitbox{32}{Version} \\
+        \bitbox{64}{TypeExt}
     \end{bytefield}
 \end{center}
 
@@ -60,5 +61,5 @@ Checksum calculated with the help of a CRC32 algorithm. This should integrate bo
 The file size field corresponds to the total size of the file minus the size of the header in bytes after compression; this is used as an additional security over the integrity of the file. It can also be used to check the remaining number of bytes in a network based streaming application.
 
 \subsection{TypeExt}
-The TypeExt field provides 40 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
+The TypeExt field provides 64 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
 All unused space in this field should be 0.

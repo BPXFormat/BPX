@@ -14,7 +14,7 @@ Below is a table describing the different sections to be expected in a BPXT:
             \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
 
             \hline\hline
-            PixelArray & 0 & Yes & Yes \\
+            PixelArray & 1 & Yes & Yes \\
             \hline
         \end{tabular}
     }
@@ -32,12 +32,13 @@ Contains information about the texture encoding.
             \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
     
             \hline\hline
-            Array & Unsigned & 16 & Size of texture array (0 = no texture array) \\
+            Array & Unsigned & 16 & Size of texture array \\
             Width & Unsigned & 4 & Texture width \\
             Height & Unsigned & 4 & Texture height \\
             Format & Unsigned & 4 & Texture format \\
             Flags & Unsigned & 4 & Flags \\
             MipMap Level & Unsigned & 8 & Number of mip maps \\
+            Reserved & Unspecified & 24 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
@@ -45,10 +46,11 @@ Contains information about the texture encoding.
 \begin{center}
     \begin{bytefield}[bitwidth=1.5em]{16}
         \bitheader{0-15} \\
-        \begin{rightwordgroup}{40 bits}
+        \begin{rightwordgroup}{64 bits}
             \bitbox{16}{Array} \\
             \bitbox{4}{Width} & \bitbox{4}{Height} & \bitbox{4}{Format} & \bitbox{4}{Flags} \\
-            \bitbox{8}{MipMap Level}
+            \bitbox{8}{MipMap Level} & \bitbox{8}{Reserved} \\
+            \bitbox{16}{Reserved}
         \end{rightwordgroup}
     \end{bytefield}
 \end{center}
