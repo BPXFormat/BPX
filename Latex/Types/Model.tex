@@ -14,26 +14,19 @@ Below is a table describing the different sections to be expected in a BPXM:
             \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
     
             \hline\hline
-            VertexFormat & 1 & Yes & Yes \\
             VertexArray & 2 & Yes & No \\
             IndexArray & 3 & No & No \\
             BoneArray & 4 & No & Yes \\
             FrameArray & 5 & No & Yes \\
             AnimationArray & 6 & No & Yes \\
-            Strings & 7 & No & Yes \\
+            Strings & 255 & No & Yes \\
             \hline
         \end{tabular}
     }
 \end{center}
 
-\subsection{VertexFormat}
-Contains information about the vertex format when attempting to present the model ro a rendering API.\newline
-It is divided into two parts:
-\begin{itemize}
-    \item A header
-    \item An array of data structures describing each vertex component
-\end{itemize}
-The header data structure is given by the following table:
+\subsection{TypeExt}
+Contains general information about the 3D model file.
 \begin{center}
     {
         \rowcolors{2}
@@ -44,76 +37,33 @@ The header data structure is given by the following table:
             \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
     
             \hline\hline
-            VertexSize & Unsigned & 16 & Total size in bytes of a single vertex \\
-            NumComponents & Unsigned & 8 & Number of components \\
-            Reserved & Unspecified & 8 & Blank, always 0 \\
+            VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
+            VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
+            Reserved & Unspecified & 32 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
 \end{center}
 \begin{center}
-    \begin{bytefield}[bitwidth=1.5em]{16}
-        \bitheader{0-15} \\
-        \bitbox{16}{VertexSize} \\
-        \bitbox{8}{NumComponents} & \bitbox{8}{Reserved}
-    \end{bytefield}
-\end{center}
-Each vertex component is represented using the following data structure:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            Type & Unsigned & 4 & Type of component \\
-            Size & Unsigned & 4 & Size of component \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
-\begin{center}
-    \begin{bytefield}[bitwidth=2em]{8}
-        \bitheader{0-7} \\
-        \bitbox{4}{Type} & \bitbox{4}{Size} \\
+    \begin{bytefield}[bitwidth=1.2em]{32}
+        \bitheader{0-31} \\
+        \begin{rightwordgroup}{128 bits}
+            \bitbox{32}{VertexFormatHash64} \\
+            \bitbox{32}{VertexFormatHash64} \\
+            \bitbox{32}{VertexFormatHash32} \\
+            \bitbox{32}{Reserved}
+        \end{rightwordgroup}
     \end{bytefield}
 \end{center}
 
-\subsubsection{VertexSize}
-The size of a single vertex structure is determined by the summation of each individual component size in bytes, the formula is given by:
-\begin{equation}
-    S = \sum_{i=1}^{N} C_i \times D_i
-\end{equation}
-where $S$ is the size of a single vertex, $N$ is the number of components, $C_i$ is the size of the ith component and $D_i$ is the data type size of the ith component
+\subsubsection{VertexFormatHash64}
+64 bits hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
 
-\subsubsection{NumComponents}
-The number of components that is expected to be read from the vertex component array.
+\subsubsection{VertexFormatHash32}
+32 bits hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
 
-\subsubsection{Type}
-The data type for a given vertex component. Supported data types are:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-
-            \hline\hline
-            FLOAT & 0x1 & A float component; 32 bits \\
-            INT & 0x2 & A signed integer component; 32 bits \\
-            UINT & 0x3 & An unsigned integer component; 32 bits \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
-
-\subsubsection{Size}
-The component size; how many of data types should this vertex component have. As an example a Vector 3 of float would be represented as a data type FLOAT with a component size of 3.
+\subsubsection{VertexFormat}
+The actual definition of the vertex format is specified as a separate asset, left to the implementation for flexibility.
 
 \subsection{VertexArray}
 This section contains a header followed by an array of vertex data structure. The size of each vertex structure should be equal to the field VertexSize in the VertexFormat section.\newline
@@ -126,9 +76,10 @@ The header data structure is described in the following table:
         \begin{tabular}{|c|c|c|c|}
             \hline
             \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
+
             \hline\hline
-            Material & Unsigned & 32 & Pointer in the Strings section \\
+            MaterialHash64 & Unsigned & 64 & Hash of material \\
+            MaterialHash32 & Unsigned & 32 & Hash of material \\
             VertexCount & Unsigned & 32 & Total number of vertices \\
             IndexArray & Unsigned & 32 & Index array section index \\
             \hline
@@ -144,8 +95,11 @@ The header data structure is described in the following table:
     \end{bytefield}
 \end{center}
 
-\subsubsection{Material}
-This field is a pointer to a null terminated string in the Strings section that is used to identify the Engine asset path of the default material to apply when rendering this vertex array.
+\subsubsection{MaterialHash64}
+64 bits hash of material asset virtual path to apply by default to this vertex array.
+
+\subsubsection{MaterialHash32}
+32 bits hash of material asset virtual path to apply by default to this vertex array.
 
 \subsubsection{VertexCount}
 The amount of vertex structures to read after this header.\newline
@@ -153,14 +107,14 @@ The amount of vertex structures to read after this header.\newline
 
 \subsubsection{IndexArray}
 This field is an index in the section header table to an IndexArray that should be used alongside this VertexArray.\newline
-A value means that no IndexArray is associated to that VertexArray.
+A value of $0$ means that no IndexArray is associated to that VertexArray.
 
 \subsubsection{Total array size}
 The total size in bytes of the vertex array to use as pre-allocation buffer size when loading this model can be calculated as follows:
 \begin{equation}
     SA = S \times V
 \end{equation}
-where $SA$ is the total size of the vertex array, $S$ the size of a single vertex structure as given in the VertexFormat section and $V$ the number of vertices in the array given by the VertexCount field.\newline
+where $SA$ is the total size of the vertex array, $S$ the size of a single vertex structure as given in the VertexFormat asset and $V$ the number of vertices in the array given by the VertexCount field.\newline
 To avoid storing an additional 64 bits field in the header of the VertexArray section this size $SA$ is left to be calculated by the implementing application.
 
 \subsection{IndexArray}
@@ -214,9 +168,10 @@ Each bone in the array following the header is represented by the following data
         \begin{tabular}{|c|c|c|c|}
             \hline
             \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
+
             \hline\hline
-            InitTransform & float & 512 & Initial transform matrix \\
+            Head & 3D float vector & 96 & Initial position of bone head \\
+            Tail & 3D float vector & 96 & Initial position of bone tail \\
             Name & Unsigned & 32 & Pointer in the Strings section \\
             \hline
         \end{tabular}
@@ -225,7 +180,8 @@ Each bone in the array following the header is represented by the following data
 \begin{center}
     \begin{bytefield}[bitwidth=1.1em]{32}
         \bitheader{0-31} \\
-        \bitbox{32}{InitTransform [16]} \\
+        \bitbox{32}{Head [3]} \\
+        \bitbox{32}{Tail [3]} \\
         \bitbox{32}{Name}
     \end{bytefield}
 \end{center}
@@ -237,15 +193,18 @@ Number of bones to expect in the bone array following the header. This number sh
 We can give an estimation that human skeleton can be up to 400 bones. Of course most models do not include as many bones to reduce GPU/CPU load.
 \begin{itemize}
     \item OpenGL, Vulkan and Metal maximum UBO/function constants storage size available to a shader is usualy 64Kb or 65536 bytes
-    \item On the official MSDN page \cite{MSDNConstantBuffers} for DirectX the maximum constant buffer size available to a shader is $4096 constants \times 432 bits = 4096 constants \times 54 bytes = 221184 bytes$
+    \item On the official MSDN page \cite{MSDNConstantBuffers} for DirectX the maximum constant buffer size available to a shader is $4096 constants \times 4 \times 32 bits = 4096 constants \times 16 bytes = 65536 bytes$
 \end{itemize}
 UBO, function constants and constant buffer refers to means of variable synchronisation between CPU accessible memory and GPU accessible memory. Vulkan is a special case as it actually supports faster memory called Push Constants, however these constants usually maxes at 256-512 bytes which is impracticable for storing bone transforms. Push constants are typically used to exchange important transformation matrices such as model, view or projection.
 The size of a transformation matrix in 3D space using homogeneous coordinate system \cite{HomogeneousCoordinates} is $32 bits (float) \times 4 \times 4 (4\times4 matrix) = 16 \times 32 bits = 512 bits = 64 bytes$.\newline
 So assuming the lowest size for storing bones in VRAM for GPU processing is $65536$ we can theoretically store up to $1024$ matrices assuming each bone matrix represents 3D space transformations in homogeneous coordinate system ($\frac{65536}{64} = 1024$).\newline
 Which means in order to \textbf{keep compatibility} with as many platforms/rendering apis as possible also taking into account byte indexing, we should store the bone count as a 16 bits integer.
 
-\subsubsection{InitTransform}
-Initial transform matrix to apply to that specific bone, the matrix is expected to be in homogeneous coordinate system \cite{HomogeneousCoordinates} respecting the convention specified in the begining of this document.
+\subsubsection{Head}
+Initial head position for that specific bone.
+
+\subsubsection{Tail}
+Initial tail position for that specific bone.
 
 \subsubsection{Name}
 Bone name as a pointer to a null terminated string in the strings section.
@@ -301,6 +260,36 @@ The total size required to save the FrameArray of a model assuming each frame re
 \vspace{12pt}
 \newline
 In conclusion the FrameArray section \textbf{should be compressed} to reduce the storage space consumed by a single model asset on disk. When loading the model in RAM one might consider adding some compression or supporting a lower limit than $1024$ bones.
+
+\subsubsection{Bone transform}
+Each bone transformation in the FrameArray section is represented by the following structure:
+\begin{center}
+    {
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
+
+            \hline\hline
+            Rotation & 4D float vector & 128 & Target bone rotation as a quaternion \\
+            Position & 3D float vector & 96 & Target bone position \\
+            Scale & 3D float vector & 96 & Target bone scale \\
+            BoneId & Unsigned & 32 & Index of affected bone \\
+            \hline
+        \end{tabular}
+    }
+\end{center}
+\begin{center}
+    \begin{bytefield}[bitwidth=1.1em]{32}
+        \bitheader{0-31} \\
+        \bitbox{32}{Rotation [4]} \\
+        \bitbox{32}{Position [3]} \\
+        \bitbox{32}{Scale [3]} \\
+        \bitbox{32}{BoneId}
+    \end{bytefield}
+\end{center}
 
 \subsection{Strings}
 The strings section contains a list of null-terminated strings to be referenced by start offset from other sections.

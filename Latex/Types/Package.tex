@@ -16,7 +16,7 @@ Below is a table describing the different sections to be expected in a BPXP:
             \hline\hline
             AssetRegistry & 1 & Yes & Yes \\
             File & 2 & Yes & No \\
-            Strings & 3 & Yes & Yes \\
+            Strings & 255 & Yes & Yes \\
             \hline
         \end{tabular}
     }
@@ -36,7 +36,7 @@ Contains information about the package content.
             \hline\hline
             AssetCount & Unsigned & 32 & Number of assets \\
             CompatibilityFlags & Unsigned & 8 & Information about supported env. \\
-            Reserved & Unspecified & 24 & Blank, always 0 \\
+            Reserved & Unspecified & 88 & Blank, always 0 \\
             \hline
         \end{tabular}
     }
@@ -44,9 +44,11 @@ Contains information about the package content.
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
-        \begin{rightwordgroup}{64 bits}
+        \begin{rightwordgroup}{128 bits}
             \bitbox{32}{AssetCount} \\
-            \bitbox{8}{CompatibilityFlags} & \bitbox{24}{Reserved}
+            \bitbox{8}{CompatibilityFlags} & \bitbox{24}{Reserved} \\
+            \bitbox{32}{Reserved} \\
+            \bitbox{32}{Reserved}
         \end{rightwordgroup}
     \end{bytefield}
 \end{center}
@@ -105,7 +107,7 @@ Below is the data structure to expect as entry in the array:
 All indexes are given as positions in the Section Header Table.
 
 \subsubsection{VirtualPath}
-Asset engine path as a pointer to a null terminated string in the strings section.
+Asset virtual path as a pointer to a null terminated string in the strings section.
 
 \subsection{Strings}
 The strings section contains a list of null-terminated strings to be referenced by start offset from other sections.

@@ -18,7 +18,7 @@ Below is a table describing the different fields to be expected in the header:
             FileSize & Unsigned & 64 & Size of file after compression \\
             SectionNum & Unsigned & 32 & Number of sections \\
             Version & Unsigned & 32 & Version of format \\
-            TypeExt & Unspecified & 64 & Extension space for various BPX types \\
+            TypeExt & Unspecified & 128 & Extension space for various BPX types \\
             \hline
         \end{tabular}
     }
@@ -29,6 +29,7 @@ Below is a table describing the different fields to be expected in the header:
         \bitbox{24}{Signature} & \bitbox{8}{Type} & \bitbox{32}{Chksum} \\
         \bitbox{64}{FileSize} \\
         \bitbox{32}{SectionNum} & \bitbox{32}{Version} \\
+        \bitbox{64}{TypeExt} \\
         \bitbox{64}{TypeExt}
     \end{bytefield}
 \end{center}
