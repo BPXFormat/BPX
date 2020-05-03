@@ -56,7 +56,7 @@ Version of the file, the currently only available version of the format is 0.
 Number of sections in the file.
 
 \subsection{Chksum}
-Checksum calculated with the help of a CRC32 algorithm. This should integrate both the header (except for the Chksum field) and the file content after compression.
+Checksum of BPX main header and section header table. Compute this value by adding all bytes of data in unsigned format.
 
 \subsection{FileSize}
 The file size field corresponds to the total size of the file minus the size of the header in bytes after compression; this is used as an additional security over the integrity of the file. It can also be used to check the remaining number of bytes in a network based streaming application.
