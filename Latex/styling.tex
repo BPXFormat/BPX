@@ -9,3 +9,46 @@
 \rhead{Copyright (c) 2020, BlockProject 3D}
 \rfoot{\thepage}
 \lfoot{04-28-2020}
+
+\usepackage{expl3}
+\usepackage{xparse}
+\ExplSyntaxOn
+\NewDocumentCommand{\bpxtabhead}{ O{\bfseries} m }
+{
+    \seq_set_split:Nnn \l_tmpa_seq { & } { #2 }
+    #1 \seq_use:Nn \l_tmpa_seq { & #1 } \\
+}
+\ExplSyntaxOff
+
+\newcommand{\bpxtable}[3]
+{
+    \begin{center}
+        \rowcolors{2}
+        {red!15}
+        {blue!15}
+        \begin{tabulary}{\linewidth}{|#1|}
+            \hline
+            \bpxtabhead{#2}
+
+            \hline\hline
+            #3
+            \hline
+        \end{tabulary}
+    \end{center}
+}
+
+\newcommand{\bpxfieldtable}[1]
+{
+    \bpxtable{C|c|c|C}{Name & Type & Size & Notes}
+    {
+        #1
+    }
+}
+
+\newcommand{\bpxsectiontable}[1]
+{
+    \bpxtable{C|c|c|c}{Name & Type & Required & Single Time}
+    {
+        #1
+    }
+}

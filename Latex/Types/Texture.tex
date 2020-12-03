@@ -4,45 +4,23 @@
 The Texture BPX is using 'T' as the type byte of BPX Main Header. This type provides optimized and efficient texture storage for 3D rendering APIs.
 \newline
 Below is a table describing the different sections to be expected in a BPXT:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
-
-            \hline\hline
-            PixelArray & 1 & Yes & Yes \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxsectiontable
+{
+    PixelArray & 1 & Yes & Yes \\
+}
 
 \subsection{TypeExt}
 Contains information about the texture encoding.
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            Array & Unsigned & 16 & Size of texture array \\
-            Width & Unsigned & 4 & Texture width \\
-            Height & Unsigned & 4 & Texture height \\
-            Format & Unsigned & 4 & Texture format \\
-            Flags & Unsigned & 4 & Flags \\
-            MipMap Level & Unsigned & 8 & Number of mip maps \\
-            Reserved & Unspecified & 72 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    Array & Unsigned & 16 & Size of texture array \\
+    Width & Unsigned & 4 & Texture width \\
+    Height & Unsigned & 4 & Texture height \\
+    Format & Unsigned & 4 & Texture format \\
+    Flags & Unsigned & 4 & Flags \\
+    MipMap Level & Unsigned & 8 & Number of mip maps \\
+    Reserved & Unspecified & 72 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.5em]{16}
         \bitheader{0-15} \\
@@ -71,44 +49,22 @@ From there one might say that we should then use less than 8 bits. However using
 
 \subsubsection{Format}
 Available formats:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-
-            \hline\hline
-            RGB & 0x1 & Standard 8 bits 3 channel RGB format \\
-            RGBA & 0x2 & 8 bits 4 channel RGB with transparency level \\
-            GREY\_SCALE & 0x3 & Single 8 bits channel representing grey scale level \\
-            FLOAT & 0x4 & Single channel 32 bits float texture \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{c|c|C}{Name & Value & Notes}
+{
+    RGB & 0x1 & Standard 8 bits 3 channel RGB format \\
+    RGBA & 0x2 & 8 bits 4 channel RGB with transparency level \\
+    GreyScale & 0x3 & Single 8 bits channel representing grey scale level \\
+    Float & 0x4 & Single channel 32 bits float texture \\
+}
 
 \subsubsection{Flags}
 Bit mask based flags (or flags together). Currently the only supported flags are:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-    
-            \hline\hline
-            Array & 0x1 & Indicates the texture should be interpreted as a texture array \\
-            Compressed & 0x2 & Indicates the texture should be GPU compressed on load \\
-            CubeMap & 0x4 & Indicates the texture should be interpreted as a CubeMap \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{c|c|C}{Name & Value & Notes}
+{
+    Array & 0x1 & Indicates the texture should be interpreted as a texture array \\
+    Compressed & 0x2 & Indicates the texture should be GPU compressed on load \\
+    CubeMap & 0x4 & Indicates the texture should be interpreted as a CubeMap \\
+}
 
 \subsubsection{MipMap Level}
 Number of mip maps \cite{MipMap} to auto generate when loading this texture.

@@ -4,25 +4,14 @@
 The Shader Package BPX is using 'S' as the type byte of BPX Main Header. This type provides optimized and cross API/platform storage for rendering code intended to be executed on the GPU \cite{GPU}.
 \newline
 Below is a table describing the different sections to be expected in a BPXS:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
-    
-            \hline\hline
-            Shader & 1 & Yes & No \\
-            Assembly & 2 & Yes & No \\
-            Bindings & 3 & Yes & No \\
-            MaterialConstants & 4 & Yes & Yes \\
-            Strings & 255 & Yes & Yes \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxsectiontable
+{
+    Shader & 1 & Yes & No \\
+    Assembly & 2 & Yes & No \\
+    Bindings & 3 & Yes & No \\
+    MaterialConstants & 4 & Yes & Yes \\
+    Strings & 255 & Yes & Yes \\
+}
 At least one assembly section is required to be saved in the file.
 
 \subsubsection{Design decisions}
@@ -35,25 +24,14 @@ In conclusion, for \textbf{better compatibility} it is recommended to build shad
 
 \subsection{TypeExt}
 Contains information about the shader package.
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
-            VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
-            CompatibilityFlags & Unsigned & 8 & Flags \\
-            NumConstants & Unsigned & 8 & Number of constants \\
-            Reserved & Unspecified & 16 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
+    VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
+    CompatibilityFlags & Unsigned & 8 & Flags \\
+    NumConstants & Unsigned & 8 & Number of constants \\
+    Reserved & Unspecified & 16 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
@@ -75,24 +53,13 @@ Contains information about the shader package.
 \subsubsection{CompatibilityFlags}
 Bit mask based flags (or flags together). These flags are used to check if a given shader program can be used with the current configuration of hardware/driver/rendering implementation. By default packages compiled from BPSL will be compatible with OpenGL 3.0 and greater; DirectX 11 and 12 will be supported if the compiling machine has Windows and the DirectX SDK (the DirectX SDK is not available on Linux/Mac/etc).\newline
 Currently the only supported flags are:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-    
-            \hline\hline
-            DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
-            OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
-            Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
-            Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{c|c|C}{Name & Value & Notes}
+{
+    DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
+    OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
+    Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
+    Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
+}
 
 \subsubsection{NumConstants}
 Number of constant description structures in the MaterialConstants section.
@@ -104,30 +71,19 @@ A shader package can contain multiple shaders.
 \subsection{Assembly}
 Contains the shader list, order and other linking information for use by a rendering API.
 Below is a table describing the data structure to expect in this section:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            Driver & Unsigned & 8 & Target driver of this assenbly \\
-            Reserved & Unspecified & 24 & Blank, always 0 \\
-            MinVersion & Unsigned & 32 & Minimum supported version \\
-            VertexShaderId & Unsigned & 32 & Vertex shader section index \\
-            DomainShaderId & Unsigned & 32 & Domain shader section index \\
-            HullShaderId & Unsigned & 32 & Hull shader section index \\
-            GeometryShaderId & Unsigned & 32 & Geometry shader section index \\
-            PixelShaderId & Unsigned & 32 & Pixel shader section index \\
-            Bindings & Unsigned & 32 & Number of bindings \\
-            BindingsId & Unsigned & 32 & Bindings section id \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    Driver & Unsigned & 8 & Target driver of this assenbly \\
+    Reserved & Unspecified & 24 & Blank, always 0 \\
+    MinVersion & Unsigned & 32 & Minimum supported version \\
+    VertexShaderId & Unsigned & 32 & Vertex shader section index \\
+    DomainShaderId & Unsigned & 32 & Domain shader section index \\
+    HullShaderId & Unsigned & 32 & Hull shader section index \\
+    GeometryShaderId & Unsigned & 32 & Geometry shader section index \\
+    PixelShaderId & Unsigned & 32 & Pixel shader section index \\
+    Bindings & Unsigned & 32 & Number of bindings \\
+    BindingsId & Unsigned & 32 & Bindings section id \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\
@@ -146,24 +102,13 @@ All indexes are given as positions in the Section Header Table.
 
 \subsubsection{Driver}
 The target rendering API for this assembly. List of possible values:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} \\
-
-            \hline\hline
-            OpenGL & 0 \\
-            DirectX & 1 \\
-            Vulkan & 2 \\
-            Metal & 3 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{C|c}{Name & Value}
+{
+    OpenGL & 0 \\
+    DirectX & 1 \\
+    Vulkan & 2 \\
+    Metal & 3 \\
+}
 
 \subsubsection{MinVersion}
 The minimum supported version for this shader. This value is dependent over the target rendering API supported by the assembly. Refer to the rendering API implementation for information on how the minimum version is encoded.
@@ -171,24 +116,13 @@ The minimum supported version for this shader. This value is dependent over the 
 \subsection{Bindings}
 The bindings section stores information about what bindings are used in this shader assembly for a particular rendering API.\newline
 This section stores an array of binding structures. A binding structure is defined by:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            StageFlags & Signed & 32 & Stage flags \\
-            Type & Unsigned & 8 & Type of binding \\
-            Register & Unsigned & 8 & Register number \\
-            Reserved & Unspecified & 16 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    StageFlags & Signed & 32 & Stage flags \\
+    Type & Unsigned & 8 & Type of binding \\
+    Register & Unsigned & 8 & Register number \\
+    Reserved & Unspecified & 16 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\
@@ -199,66 +133,33 @@ This section stores an array of binding structures. A binding structure is defin
 
 \subsubsection{StageFlags}
 Describes to what stage this binding is acceptable. These flags are bit mask that can be or'ed together in order to map to multiple stages. Below is a table to list the different available flags:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-    
-            \hline\hline
-            LOCK\_VERTEX\_STAGE & 0x1 & Indicates binding locks to vertex shader \\
-            LOCK\_HULL\_STAGE & 0x2 & Indicates binding locks to hull shader \\
-            LOCK\_DOMAIN\_STAGE & 0x4 & Indicates binding locks to domain shader \\
-            LOCK\_GEOMETRY\_STAGE & 0x8 & Indicates binding locks to geometry shader \\
-            LOCK\_PIXEL\_STAGE & 0x10 & Indicates binding locks to pixel shader \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{C|c|C}{Name & Value & Notes}
+{
+    LockVertexStage & 0x1 & Indicates binding locks to vertex shader \\
+    LockHullStage & 0x2 & Indicates binding locks to hull shader \\
+    LockDomainStage & 0x4 & Indicates binding locks to domain shader \\
+    LockGeometryStage & 0x8 & Indicates binding locks to geometry shader \\
+    LockPixelStage & 0x10 & Indicates binding locks to pixel shader \\
+}
 
 \subsubsection{Type}
 The type of binding. Currently there are only 4 types of binding:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} \\
-
-            \hline\hline
-            TEXTURE & 0 \\
-            SAMPLER & 1 \\
-            CONSTANT\_BUFFER & 2 \\
-            FIXED\_CONSTANT\_BUFFER & 3 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{C|c}{Name & Value}
+{
+    Texture & 0 \\
+    Sampler & 1 \\
+    ConstantBuffer & 2 \\
+    FixedConstantBuffer & 3 \\
+}
 
 \subsection{MaterialConstants}
 The Material structure expected by this shader. Like for the binding section, this section is also a contiguous array of constant description structures. A constant description structure is defined as follows:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            Name & Unsigned & 32 & Name of constant \\
-            Type & Unsigned & 8 & Type of constant \\
-            Reserved & Unspecified & 24 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    Name & Unsigned & 32 & Name of constant \\
+    Type & Unsigned & 8 & Type of constant \\
+    Reserved & Unspecified & 24 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\
@@ -272,42 +173,31 @@ The name of the constant as an offset pointer in the string section.
 
 \subsection{Type}
 The type of constant. Below is an exhaustive table of all accepted types:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} \\
-
-            \hline\hline
-            FLOAT & 0 \\
-            VECTOR\_FLOAT\_2 & 1 \\
-            VECTOR\_FLOAT\_3 & 2 \\
-            VECTOR\_FLOAT\_4 & 3 \\
-            INT & 4 \\
-            VECTOR\_INT\_2 & 5 \\
-            VECTOR\_INT\_3 & 6 \\
-            VECTOR\_INT\_4 & 7 \\
-            UINT & 8 \\
-            VECTOR\_UINT\_2 & 9 \\
-            VECTOR\_UINT\_3 & 10 \\
-            VECTOR\_UINT\_4 & 11 \\
-            BOOL & 12 \\
-            VECTOR\_BOOL\_2 & 13 \\
-            VECTOR\_BOOL\_3 & 14 \\
-            VECTOR\_BOOL\_4 & 15 \\
-            COLOR\_RGB & 16 \\
-            COLOR\_RGBA & 17 \\
-            DOUBLE & 18 \\
-            VECTOR\_DOUBLE\_2 & 19 \\
-            VECTOR\_DOUBLE\_3 & 20 \\
-            VECTOR\_DOUBLE\_4 & 21 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{C|c}{Name & Value}
+{
+    Float & 0 \\
+    VectorFloat2 & 1 \\
+    VectorFloat3 & 2 \\
+    VectorFloat4 & 3 \\
+    Integer & 4 \\
+    VectorInteger2 & 5 \\
+    VectorInteger3 & 6 \\
+    VectorInteger4 & 7 \\
+    Unsigned & 8 \\
+    VectorUnsigned2 & 9 \\
+    VectorUnsigned3 & 10 \\
+    VectorUnsigned4 & 11 \\
+    Boolean & 12 \\
+    VectorBoolean2 & 13 \\
+    VectorBoolean3 & 14 \\
+    VectorBoolean4 & 15 \\
+    ColorRGB & 16 \\
+    ColorRGBA & 17 \\
+    Double & 18 \\
+    VectorDouble2 & 19 \\
+    VectorDouble3 & 20 \\
+    VectorDouble4 & 21 \\
+}
 
 \subsection{Strings}
 The strings section contains a list of null-terminated strings to be referenced by start offset from other sections.

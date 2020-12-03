@@ -4,46 +4,24 @@
 The Model BPX is using 'M' as the type byte of BPX Main Header. This type provides optimized and efficient mesh storage for 3D rendering APIs.
 \newline
 Below is a table describing the different sections to be expected in a BPXM:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
-    
-            \hline\hline
-            VertexArray & 2 & Yes & No \\
-            IndexArray & 3 & No & No \\
-            BoneArray & 4 & No & Yes \\
-            FrameArray & 5 & No & Yes \\
-            AnimationArray & 6 & No & Yes \\
-            Strings & 255 & No & Yes \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxsectiontable
+{
+    VertexArray & 2 & Yes & No \\
+    IndexArray & 3 & No & No \\
+    BoneArray & 4 & No & Yes \\
+    FrameArray & 5 & No & Yes \\
+    AnimationArray & 6 & No & Yes \\
+    Strings & 255 & No & Yes \\
+}
 
 \subsection{TypeExt}
 Contains general information about the 3D model file.
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
-            VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
-            Reserved & Unspecified & 32 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
+    VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
+    Reserved & Unspecified & 32 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
@@ -68,24 +46,13 @@ The actual definition of the vertex format is specified as a separate asset, lef
 \subsection{VertexArray}
 This section contains a header followed by an array of vertex data structure. The size of each vertex structure should be equal to the field VertexSize in the VertexFormat section.\newline
 The header data structure is described in the following table:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            MaterialHash64 & Unsigned & 64 & Hash of material \\
-            MaterialHash32 & Unsigned & 32 & Hash of material \\
-            VertexCount & Unsigned & 32 & Total number of vertices \\
-            IndexArray & Unsigned & 32 & Index array section index \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    MaterialHash64 & Unsigned & 64 & Hash of material \\
+    MaterialHash32 & Unsigned & 32 & Hash of material \\
+    VertexCount & Unsigned & 32 & Total number of vertices \\
+    IndexArray & Unsigned & 32 & Index array section index \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.1em]{32}
         \bitheader{0-31} \\
@@ -121,21 +88,10 @@ To avoid storing an additional 64 bits field in the header of the VertexArray se
 The index array section allows to ommit certain vertices and figure out these vertices at runtime. Instead of writing all vertices for a given model requiring more space to store them, we only store unique vertices, and duplicates are just resolved by matching a vertex index from this section to an actual vertex structure, \textbf{this allows to save storage space and RAM}.\newline
 This section contains a header describing the amount of indices to be found in the array, and an array of 32 bits unsigned integer each representing the index of a vertex in a given vertex array.\newline
 Below is a table describing the data structure to expect as header for an IndexArray section:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            IndexCount & Unsigned & 32 & Total number of indices \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    IndexCount & Unsigned & 32 & Total number of indices \\
+}
 
 \subsubsection{IndexCount}
 The number of indices expected to be read from the array below this header.
@@ -143,40 +99,18 @@ The number of indices expected to be read from the array below this header.
 \subsection{BoneArray}
 This section contains a header followed by an array of data structures representing each bone in a skeletal mesh.\newline
 Below is a description of the header to find before bone data in this section:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            BoneCount & Unsigned & 16 & Total number of bones \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    BoneCount & Unsigned & 16 & Total number of bones \\
+}
 
 Each bone in the array following the header is represented by the following data structure:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            Head & 3D float vector & 96 & Initial position of bone head \\
-            Tail & 3D float vector & 96 & Initial position of bone tail \\
-            Name & Unsigned & 32 & Pointer in the Strings section \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    Head & 3D float vector & 96 & Initial position of bone head \\
+    Tail & 3D float vector & 96 & Initial position of bone tail \\
+    Name & Unsigned & 32 & Pointer in the Strings section \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.1em]{32}
         \bitheader{0-31} \\
@@ -263,24 +197,13 @@ In conclusion the FrameArray section \textbf{should be compressed} to reduce the
 
 \subsubsection{Bone transform}
 Each bone transformation in the FrameArray section is represented by the following structure:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-
-            \hline\hline
-            Rotation & 4D float vector & 128 & Target bone rotation as a quaternion \\
-            Position & 3D float vector & 96 & Target bone position \\
-            Scale & 3D float vector & 96 & Target bone scale \\
-            BoneId & Unsigned & 32 & Index of affected bone \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    Rotation & 4D float vector & 128 & Target bone rotation as a quaternion \\
+    Position & 3D float vector & 96 & Target bone position \\
+    Scale & 3D float vector & 96 & Target bone scale \\
+    BoneId & Unsigned & 32 & Index of affected bone \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.1em]{32}
         \bitheader{0-31} \\

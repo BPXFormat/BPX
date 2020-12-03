@@ -4,43 +4,21 @@
 The Package BPX is using 'P' as the type byte of BPX Main Header. This type provides asset packages using the BPX format.
 \newline
 Below is a table describing the different sections to be expected in a BPXP:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Required} & \textbf{Single Time} \\
-
-            \hline\hline
-            AssetRegistry & 1 & Yes & Yes \\
-            File & 2 & Yes & No \\
-            Strings & 255 & Yes & Yes \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxsectiontable
+{
+    AssetRegistry & 1 & Yes & Yes \\
+    File & 2 & Yes & No \\
+    Strings & 255 & Yes & Yes \\
+}
 
 \subsection{TypeExt}
 Contains information about the package content.
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            AssetCount & Unsigned & 32 & Number of assets \\
-            CompatibilityFlags & Unsigned & 8 & Information about supported env. \\
-            Reserved & Unspecified & 88 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    AssetCount & Unsigned & 32 & Number of assets \\
+    CompatibilityFlags & Unsigned & 8 & Information about supported env. \\
+    Reserved & Unspecified & 88 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
@@ -59,44 +37,22 @@ Number of assets to expect in the AssetRegistry section.
 \subsubsection{CompatibilityFlags}
 Bit mask based flags (or flags together). These flags are used to check if a given asset package can be used with the current configuration of hardware/driver/rendering implementation.\newline
 Currently the only supported flags are:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-    
-            \hline\hline
-            DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
-            OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
-            Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
-            Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{C|c|C}{Name & Value & Notes}
+{
+    DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
+    OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
+    Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
+    Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
+}
 
 \subsection{AssetRegistry}
 The AssetRegistry is an array of data structures which size is defined by the AssetCount field present in the TypeExt.\newline
 Below is the data structure to expect as entry in the array:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            VirtualPath & Unsigned & 32 & Pointer in the Strings section \\
-            FileId & Unsigned & 32 & File section index \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxfieldtable
+{
+    VirtualPath & Unsigned & 32 & Pointer in the Strings section \\
+    FileId & Unsigned & 32 & File section index \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=1.4em]{32}
         \bitheader{0-31} \\

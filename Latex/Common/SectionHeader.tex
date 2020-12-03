@@ -6,26 +6,16 @@ This section is \textbf{not compressable}.
 
 \subsection{BPX Section Header}
 Below is a table describing the feilds to expect in a BPX Section Header:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Type} & \textbf{Size} & \textbf{Notes} \\
-    
-            \hline\hline
-            Pointer & Unsigned & 64 & Offset in bytes from the beginning of the file \\
-            Size & Unsigned & 32 & Size in bytes of section \\
-            Chksum & Unsigned & 32 & Checksum \\
-            Type & Unsigned & 8 & Type of Section \\
-            Flags & Unsigned & 8 & Flags for the current section \\
-            Reserved & Unspecified & 48 & Blank, always 0 \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+
+\bpxfieldtable
+{
+    Pointer & Unsigned & 64 & Offset in bytes from the beginning of the file \\
+    Size & Unsigned & 32 & Size in bytes of section \\
+    Chksum & Unsigned & 32 & Checksum \\
+    Type & Unsigned & 8 & Type of Section \\
+    Flags & Unsigned & 8 & Flags for the current section \\
+    Reserved & Unspecified & 48 & Blank, always 0 \\
+}
 \begin{center}
     \begin{bytefield}[bitwidth=0.73em]{64}
         \bitheader{0-63} \\
@@ -42,29 +32,18 @@ Position in bytes in the file where the content for a given section should be fo
 Size in bytes of the content for a given section excluding Section Header.
 
 \subsubsection{Chksum}
-Checksum of uncompressed data:
-\begin{itemize}
-    \item When the section is marked with a zlib compression flag, use zlib's provided adler 32 bits checksum.
-    \item Otherwise just add all bytes of data in the section as unsigned format.
-\end{itemize}
+Checksum of uncompressed data, refer to the Check type of flags in the flags sub-section (\ref{sssec:Flags}) to know how to interpret and generate this field.
 
 \subsubsection{Type}
 An integer to represent the type of section.
 
-\subsubsection{Flags}
+\subsubsection{Flags} \label{sssec:Flags}
 Bit mask based flags (or flags together). Currently the only supported flags are:
-\begin{center}
-    {
-        \rowcolors{2}
-        {red!15}
-        {blue!15}
-        \begin{tabular}{|c|c|c|}
-            \hline
-            \textbf{Name} & \textbf{Value} & \textbf{Notes} \\
-    
-            \hline\hline
-            Compressed & 0x2 & Indicates the section is compressed using the zlib \cite{zlib} algorithm \\
-            \hline
-        \end{tabular}
-    }
-\end{center}
+\bpxtable{c|c|C}{Name & Value & Notes}
+{
+    CompressedZlib & 0x2 & Indicates the section is compressed using the zlib \cite{zlib} algorithm \\
+    CompressedXZ & 0x4 & Indicates the section is compressed using the XZ \cite{xz} algorithm \\
+    CheckAdler32 & 0x8 & Indicates the section checksum is computed using Addler32 algorithm \\
+    CheckWeak & 0x10 & Indicates the section checksum is computed with the weak variant as used in the BPX Main Header \\
+    CheckNone & 0x20 & Indicates no checksum is used, in this case the section checksum field is set to 0 \\
+}
