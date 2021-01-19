@@ -6,64 +6,25 @@ The Package BPX is using 'P' as the type byte of BPX Main Header. This type prov
 Below is a table describing the different sections to be expected in a BPXP:
 \bpxsectiontable
 {
-    AssetRegistry & 1 & Yes & Yes \\
-    File & 2 & Yes & No \\
+    Data & 1 & Yes & No \\
     Strings & 255 & Yes & Yes \\
 }
+NOTE: The order of Data sections MUST be contiguous. A file is allowed to be divided in multiple sections, however a file header MUST NOT be divided. The Strings section can be either first or last in the file.
 
-\subsection{TypeExt}
-Contains information about the package content.
+\subsection{Data}
+The Data section is used to store one or more files. Each file begins by a file header which is defined as:
+
 \bpxfieldtable
 {
-    AssetCount & Unsigned & 32 & Number of assets \\
-    CompatibilityFlags & Unsigned & 8 & Information about supported env. \\
-    Reserved & Unspecified & 88 & Blank, always 0 \\
-}
-\begin{center}
-    \begin{bytefield}[bitwidth=1.2em]{32}
-        \bitheader{0-31} \\
-        \begin{rightwordgroup}{128 bits}
-            \bitbox{32}{AssetCount} \\
-            \bitbox{8}{CompatibilityFlags} & \bitbox{24}{Reserved} \\
-            \bitbox{32}{Reserved} \\
-            \bitbox{32}{Reserved}
-        \end{rightwordgroup}
-    \end{bytefield}
-\end{center}
-
-\subsubsection{AssetCount}
-Number of assets to expect in the AssetRegistry section.
-
-\subsubsection{CompatibilityFlags}
-Bit mask based flags (or flags together). These flags are used to check if a given asset package can be used with the current configuration of hardware/driver/rendering implementation.\newline
-Currently the only supported flags are:
-\bpxtable{C|c|C}{Name & Value & Notes}
-{
-    DirectX & 0x1 & Indicates compatibility with DirectX \cite{DirectX} \\
-    OpenGL & 0x2 & Indicates compatibility with OpenGL \cite{OpenGL} \\
-    Vulkan & 0x4 & Indicates compatibility with Vulkan \cite{Vulkan} \\
-    Metal & 0x8 & Indicates compatibility with Metal \cite{Metal} \\
+    Size & Unsigned & 64 & File size \\
+    Path & Unsigned & 32 & Pointer in the Strings section \\
 }
 
-\subsection{AssetRegistry}
-The AssetRegistry is an array of data structures which size is defined by the AssetCount field present in the TypeExt.\newline
-Below is the data structure to expect as entry in the array:
-\bpxfieldtable
-{
-    VirtualPath & Unsigned & 32 & Pointer in the Strings section \\
-    FileId & Unsigned & 32 & File section index \\
-}
-\begin{center}
-    \begin{bytefield}[bitwidth=1.4em]{32}
-        \bitheader{0-31} \\
-        \bitbox{32}{VirtualPath} \\
-        \bitbox{32}{FileId}
-    \end{bytefield}
-\end{center}
-All indexes are given as positions in the Section Header Table.
+\subsubsection{Size}
+The total size of the file to read. When extracting a file which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
 
-\subsubsection{VirtualPath}
-Asset virtual path as a pointer to a null terminated string in the strings section.
+\subsubsection{Path}
+The path as a pointer to a null terminated string in the strings section. Used to identify relative extraction location or the virtual path of the asset in a rendering application.
 
 \subsection{Strings}
 The strings section contains a list of null-terminated strings to be referenced by start offset from other sections.

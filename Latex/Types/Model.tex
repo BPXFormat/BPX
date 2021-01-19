@@ -52,13 +52,14 @@ The header data structure is described in the following table:
     MaterialHash32 & Unsigned & 32 & Hash of material \\
     VertexCount & Unsigned & 32 & Total number of vertices \\
     IndexArray & Unsigned & 32 & Index array section index \\
+    Reserved & Unsigned & 32 & Blank, always 0 \\
 }
 \begin{center}
-    \begin{bytefield}[bitwidth=1.1em]{32}
-        \bitheader{0-31} \\
-        \bitbox{32}{Material} \\
-        \bitbox{32}{VertexCount} \\
-        \bitbox{32}{IndexArray}
+    \begin{bytefield}[bitwidth=0.73em]{64}
+        \bitheader{0-63} \\
+        \bitbox{64}{MaterialHash64} \\
+        \bitbox{32}{MaterialHash32} & \bitbox{32}{VertexCount} \\
+        \bitbox{32}{IndexArray} & \bitbox{32}{Reserved}
     \end{bytefield}
 \end{center}
 

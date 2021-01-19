@@ -39,17 +39,20 @@ Currently only the following are supported:
 Here the characters between single quotes are to interpreted as their byte representation in ASCII encoding.
 
 \subsection{Version}
-Version of the file, the currently only available version of the format is 0.
+Version of the file, the currently only available version of the format is 1.
 
 \subsection{SectionNum}
 Number of sections in the file.
 
 \subsection{Chksum}
-Checksum of BPX main header and section header table. Compute this value by adding all bytes of data in unsigned format.
+Checksum of BPX main header and section header table. Compute this value by adding all bytes of data in unsigned format. Consider the value of this field to be \textbf{0} in order to correctly compute the checksum.\newline
+All fields of all section headers in the section header table and of the above header must be filled before computing this checksum otherwise the purpose of this checksum would be defeated.
 
 \subsection{FileSize}
-The file size field corresponds to the total size of the file minus the size of the header in bytes after compression; this is used as an additional security over the integrity of the file. It can also be used to check the remaining number of bytes in a network based streaming application.
+The file size field corresponds to the total size of the file including the size of this header in bytes after compression.\newline
+This can be used as an additional security over the integrity of the file. It can also be used to check the remaining number of bytes in a network based streaming application.\newline
+Currently, the implementation is \textbf{not required to implement this field}. In case an implementation does not implement this field, it should be set to \textbf{0}.
 
 \subsection{TypeExt}
-The TypeExt field provides 64 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
-All unused space in this field should be 0.
+The TypeExt field provides 128 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
+All unused space in this field should be to \textbf{0}.

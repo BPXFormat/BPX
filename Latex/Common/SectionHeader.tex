@@ -47,6 +47,6 @@ Bit mask based flags (or flags together). Currently the only supported flags are
 {
     CompressedZlib & 0x1 & Indicates the section is compressed using the zlib \cite{zlib} algorithm \\
     CompressedXZ & 0x2 & Indicates the section is compressed using the XZ \cite{xz} algorithm \\
-    CheckAdler32 & 0x4 & Indicates the section checksum is computed using Addler32 algorithm \\
+    CheckCrc32 & 0x4 & Indicates the section checksum is computed using Crc32 algorithm \\
     CheckWeak & 0x8 & Indicates the section checksum is computed with the weak variant as used in the BPX Main Header \\
 }
