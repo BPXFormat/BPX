@@ -18,27 +18,23 @@ Below is a table describing the different sections to be expected in a BPXM:
 Contains general information about the 3D model file.
 \bpxfieldtable
 {
-    VertexFormatHash64 & Unsigned & 64 & Hash of vertex format \\
-    VertexFormatHash32 & Unsigned & 32 & Hash of vertex format \\
-    Reserved & Unspecified & 32 & Blank, always 0 \\
+    VertexFormatHash & Unsigned & 64 & Hash of vertex format \\
+    Reserved & Unsigned & 64 & Blank, always 0 \\
 }
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
         \begin{rightwordgroup}{128 bits}
-            \bitbox{32}{VertexFormatHash64} \\
-            \bitbox{32}{VertexFormatHash64} \\
-            \bitbox{32}{VertexFormatHash32} \\
+            \bitbox{32}{VertexFormatHash} \\
+            \bitbox{32}{VertexFormatHash} \\
+            \bitbox{32}{Reserved} \\
             \bitbox{32}{Reserved}
         \end{rightwordgroup}
     \end{bytefield}
 \end{center}
 
-\subsubsection{VertexFormatHash64}
-64 bits hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
-
-\subsubsection{VertexFormatHash32}
-32 bits hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
+\subsubsection{VertexFormatHash}
+Hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
 
 \subsubsection{VertexFormat}
 The actual definition of the vertex format is specified as a separate asset, left to the implementation for flexibility.
@@ -48,8 +44,7 @@ This section contains a header followed by an array of vertex data structure. Th
 The header data structure is described in the following table:
 \bpxfieldtable
 {
-    MaterialHash64 & Unsigned & 64 & Hash of material \\
-    MaterialHash32 & Unsigned & 32 & Hash of material \\
+    MaterialHash & Unsigned & 64 & Hash of material \\
     VertexCount & Unsigned & 32 & Total number of vertices \\
     IndexArray & Unsigned & 32 & Index array section index \\
     Reserved & Unsigned & 32 & Blank, always 0 \\
@@ -57,17 +52,13 @@ The header data structure is described in the following table:
 \begin{center}
     \begin{bytefield}[bitwidth=0.73em]{64}
         \bitheader{0-63} \\
-        \bitbox{64}{MaterialHash64} \\
-        \bitbox{32}{MaterialHash32} & \bitbox{32}{VertexCount} \\
-        \bitbox{32}{IndexArray} & \bitbox{32}{Reserved}
+        \bitbox{64}{MaterialHash} \\
+		\bitbox{32}{VertexCount} & \bitbox{32}{IndexArray}
     \end{bytefield}
 \end{center}
 
-\subsubsection{MaterialHash64}
-64 bits hash of material asset virtual path to apply by default to this vertex array.
-
-\subsubsection{MaterialHash32}
-32 bits hash of material asset virtual path to apply by default to this vertex array.
+\subsubsection{MaterialHash}
+Hash of material asset virtual path to apply by default to this vertex array.
 
 \subsubsection{VertexCount}
 The amount of vertex structures to read after this header.\newline

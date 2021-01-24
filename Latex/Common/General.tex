@@ -37,3 +37,14 @@ All data structures exposed in this format specification are padded to comply wi
 
 \section{Floating points}
 All floating points in this format are stored in IEEE 754 format \cite{ieee754}.
+
+\section{Hashing function}
+Some types of BPX requires hashing for some strings. The string hash function to apply is defined by:
+
+\begin{equation}
+	h_X(0) = 5381
+\end{equation}
+\begin{equation}
+	h_X(n + 1) = \left( \left( h_X(n) \times 2^5 \right) + h_X(n) \right) + X_{n + 1}
+\end{equation}
+where $X$ is a row vector containing the raw bytes of the string.
