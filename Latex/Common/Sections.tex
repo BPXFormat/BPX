@@ -14,7 +14,8 @@ Reading a string is done by taking it's offset in the corresponding string secti
 Writing a string is done by taking the UTF-8 encoded bytes of this string and writing the bytes followed by a null byte at the end of the section.
 
 \subsection{Structured Data Section} \label{ssec:Structured}
-The structured data section is based off of the JSON format. Any Structured Data Section begins by an Object (see \ref{sssec:Objects}). The type byte for this section is generally 0xFE (254).
+The BPX Structured Data format, also called BPXSD, borrows various concepts from JSON. Any Structured Data section begins by an Object (see \ref{sssec:Objects}). The type byte for this section is generally 0xFE (254).\newline
+NOTE: This format is not exclusive to BPX, it may be used in other applications like network protocols.
 
 \subsubsection{Type codes}
 Each property property is encoded with a Type byte also called type code.  Below is a table listing all type codes:
@@ -53,8 +54,8 @@ Below is a table showing encoding of native types. Native types are considerered
 	Int16 & 16 & 16 bit signed integer \\
 	Int32 & 32 & 32 bit signed integer \\
 	Int64 & 64 & 64 bit signed integer \\
-	Float & 32 & 32 bit floating point \\
-	Double & 64 & 64 bit floating point \\
+	Float & 32 & 32 bit floating point number \\
+	Double & 64 & 64 bit floating point number \\
 }
 For simplicity booleans are encoded as 8 bit bytes.
 
@@ -77,6 +78,9 @@ An object is encoded as a contiguous list of properties each defined by a key-va
 		\bitbox{8}{Type}
 	\end{bytefield}
 \end{center}
+
+\subsubsection{Debugging}
+As stated in the previous sub-section, the BPXSD Object stores hashes of the property names which means the original name is lost. To mitigate this issue, a BPXSD Object may contain a property, accessed by $Hash("\_\_debug\_\_")$, which stores debugging symbols. This property always points to an array of strings. In order to display property name the implementation is responsible for finding in this debug symbol array the property name string such as $Hash(V_i) = P$ where $V$ is the array of debug symbols (i representing the index in that array) and P the property hash that the implementation whishes to know the original name for.
 
 \subsubsection{Arrays}
 An array is encoded as a contiguous list of values. The first byte to read of an array gives the number of values in this array.
