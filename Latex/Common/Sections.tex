@@ -15,7 +15,7 @@ Writing a string is done by taking the UTF-8 encoded bytes of this string and wr
 
 \subsection{Structured Data Section} \label{ssec:Structured}
 The BPX Structured Data format, also called BPXSD, borrows various concepts from JSON. Any Structured Data section begins by an Object (see \ref{sssec:Objects}). The type byte for this section is generally 0xFE (254).\newline
-NOTE: This format is not exclusive to BPX, it may be used in other applications like network protocols.
+NOTE: This format is not exclusive to BPX: it may be used in other applications like network protocols.
 
 \subsubsection{Type codes}
 Each property property is encoded with a Type byte also called type code.  Below is a table listing all type codes:
