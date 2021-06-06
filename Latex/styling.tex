@@ -1,6 +1,7 @@
 \setlength{\arrayrulewidth}{0.5mm}
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{1.5}
+\renewcommand{\familydefault}{\sfdefault}
 
 % Heading
 \pagestyle{fancy}
@@ -8,7 +9,7 @@
 \lhead{BlockProject Extended}
 \rhead{Copyright (c) 2021, BlockProject 3D}
 \rfoot{\thepage}
-\lfoot{01-24-2021}
+\lfoot{Rev 2 (06-06-2021)}
 
 \usepackage{expl3}
 \usepackage{xparse}
@@ -35,6 +36,33 @@
             \hline
         \end{tabulary}
     \end{center}
+}
+
+\definecolor{bpxnotetitleboxcolor}{rgb}{0.122, 0.435, 0.698}
+\definecolor{bpxnotebodyboxcolor}{rgb}{1.0, 0.84, 0.0}
+
+\newmdenv[
+	roundcorner=4pt,
+	linewidth=2.5pt,
+	linecolor=bpxnotetitleboxcolor,
+	backgroundcolor=bpxnotebodyboxcolor,
+]{bpxnotebody}
+
+\newmdenv[
+	roundcorner=4pt,
+	linecolor=bpxnotetitleboxcolor,
+	backgroundcolor=bpxnotetitleboxcolor,
+]{bpxnotetitle}
+
+\newcommand{\bpxnote}[2]
+{
+	\begin{bpxnotebody}
+		\begin{bpxnotetitle}
+			\color{white}
+			\textbf{\large #1}
+		\end{bpxnotetitle}
+		#2
+	\end{bpxnotebody}
 }
 
 \newcommand{\bpxfieldtable}[1]

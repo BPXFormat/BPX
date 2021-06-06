@@ -9,7 +9,7 @@ Below is a table describing the different fields to be expected in the header:
     Chksum & Unsigned & 32 & Checksum \\
     FileSize & Unsigned & 64 & Size of file after compression \\
     SectionNum & Unsigned & 32 & Number of sections \\
-    Version & Unsigned & 32 & Version of format \\
+    Version & Unsigned & 32 & Version of BPX format \\
     TypeExt & Unspecified & 128 & Extension space for various BPX types \\
 }
 \begin{center}
@@ -39,7 +39,11 @@ Currently only the following are supported:
 Here the characters between single quotes are to interpreted as their byte representation in ASCII encoding.
 
 \subsection{Version}
-Version of the file, the currently only available version of the format is 1.
+Version of BPX, currently 2 values are supported:
+\begin{itemize}
+	\item a value of 1 refers to the initial release of this document implemented in SDK 1.0 and 2.0.
+	\item a value of 2 refers to this current revision of the format and is available in SDK 3.0.
+\end{itemize}
 
 \subsection{SectionNum}
 Number of sections in the file.
