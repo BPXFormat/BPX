@@ -7,19 +7,18 @@ Below is a table describing the different sections to be expected in a BPXP:
 \bpxsectiontable
 {
     Data & 1 & Yes & No \\
-    FileTable & 2 & Yes & Yes \\
+    ObjectTable & 2 & Yes & Yes \\
     Metadata & 254 & No & Yes \\
     Strings & 255 & Yes & Yes \\
 }
-NOTE: The order of Data sections MUST be contiguous. A file is allowed to be divided in multiple sections, however a file header MUST NOT be divided.
+NOTE: The order of Data sections MUST be contiguous. An object is allowed to be divided in multiple sections, however an object header MUST NOT be divided.
 
 \bpxnote{Revision 2 (SDK $\ge$ 3.0)}
 {
 	\begin{itemize}
-		\item Only one file or the continuation of one is allowed per Data section.
-		\item A Data section is not allowed to store file headers anymore, the FileTable section is here to store all file headers.
-		\item An additional required FileTable section MUST only be generated in a BPX rev 2 or later.
-		\item All data of a given file must be stored in a contiguous set of Data sections.
+		\item A Data section is not allowed to store object headers anymore, the ObjectTable section is here to store all object headers.
+		\item An additional required ObjectTable section MUST only be generated in a BPX rev 2 or later.
+		\item All data of a given object must be stored in a contiguous set of Data sections.
 	\end{itemize}
 }
 
@@ -79,7 +78,7 @@ Contains general information about the Package.
 \textbf{The generator identification is only useful to know the expected structure of the optional Metadata section.}
 
 \subsection{Data}
-The Data section is used to store one or more files. Each file begins by a file header which is defined as:
+The Data section is used to store one or more objects. Each object begins by an object header which is defined as:
 
 \bpxfieldtable
 {
@@ -88,25 +87,26 @@ The Data section is used to store one or more files. Each file begins by a file 
 }
 
 \subsubsection{Size}
-The total size of the file to read. When extracting a file which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
+The total size of the object to read. When extracting an object which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
 
 \subsubsection{Path}
 The path as a pointer to a null terminated string in the strings section. Used to identify relative extraction location and/or the virtual path of the asset in a rendering application.
 
 \bpxnote{Revision 2 (SDK $\ge$ 3.0)}
 {
-	The Data section only stores one file or is the extension of the previous Data section. Additionally, a Data section MUST not contain any file header.
+	No object header is to be written inside a Data section anymore. However a Data section can still be used to store multiple objects.
 
 	\subsection{FileTable}
-	The FileTable section stores an array of file headers where each file header points to an actual Data section where the start of the file content is expected.
+	The FileTable section stores an array of object headers where each object header points to an actual Data section where the start of the object is expected.
 	\newline
-	A file header is represented by the following structure:
+	An object header is represented by the following structure:
 	
 	\bpxfieldtable
 	{
-		Size & Unsigned & 64 & File size \\
+		Size & Unsigned & 64 & Object size \\
 		Path & Unsigned & 32 & Pointer in the Strings section \\
 		Start & Unsigned & 32 & Index of the starting data section \\
+		Offset & Unsigned & 32 & Offset relative to the start of the data section \\
 	}
 
 	\begin{center}
@@ -118,16 +118,18 @@ The path as a pointer to a null terminated string in the strings section. Used t
 	\end{center}
 
 	\subsubsection{Size}
-	The total size of the file to read. When extracting a file which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
+	The total size of the object to read. When extracting an object which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
 	\newline
-	\textbf{If the size of the file does not exceed $2^{32}$ bytes (4Gb) it is expected to only use one section in order to save the file content.}
+	\textbf{It is expected to store as many objects as possible in one section in order to enable efficient data compression in case many small objects are packed.}
+	\newline
+	\textbf{When attempting to store a large object consider storing it in it's own section to avoid segmentation when reading the object.}
 
 	\subsubsection{Path}
 	The path as a pointer to a null terminated string in the strings section. Used to identify relative extraction location and/or the virtual path of the asset in a rendering application.
 
 	\subsubsection{Start}
-	The index of the section to start reading the content of the file. In order to not over-read, refer to the size of the file as given in the file header.
- }
+	The index of the section to start reading the content of the object. In order to not over-read, refer to the size of the object as given in the object header.
+}
 
 \subsection{Strings}
 The strings section contains a list of null-terminated strings to be referenced by start offset from other sections (see \ref{ssec:Strings}).
