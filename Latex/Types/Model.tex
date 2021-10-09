@@ -18,26 +18,27 @@ Below is a table describing the different sections to be expected in a BPXM:
 Contains general information about the 3D model file.
 \bpxfieldtable
 {
-    VertexFormatHash & Unsigned & 64 & Hash of vertex format \\
-    Reserved & Unsigned & 64 & Blank, always 0 \\
+    ShaderHash & Unsigned & 64 & Hash of shader package virtual path \\
+    SymbolName & Unsigned & 32 & Name of vertex format symbol in the shader package \\
+    Reserved & Unsigned & 32 & Blank, always 0 \\
 }
 \begin{center}
     \begin{bytefield}[bitwidth=1.2em]{32}
         \bitheader{0-31} \\
         \begin{rightwordgroup}{128 bits}
-            \bitbox{32}{VertexFormatHash} \\
-            \bitbox{32}{VertexFormatHash} \\
-            \bitbox{32}{Reserved} \\
+            \bitbox{32}{ShaderHash} \\
+            \bitbox{32}{ShaderHash} \\
+            \bitbox{32}{SymbolName} \\
             \bitbox{32}{Reserved}
         \end{rightwordgroup}
     \end{bytefield}
 \end{center}
 
-\subsubsection{VertexFormatHash}
-Hash of vertex format asset virtual path corresponding to the vertex structure that this shader expects as input.
+\subsubsection{ShaderHash}
+Hash of shader package asset virtual path containing to the vertex format of this model.
 
-\subsubsection{VertexFormat}
-The actual definition of the vertex format is specified as a separate asset, left to the implementation for flexibility.
+\subsubsection{SymbolName}
+The symbol name of the vertex format to locate in the shader package identified by the ShaderHash field.
 
 \subsection{VertexArray}
 This section contains a header followed by an array of vertex data structure. The size of each vertex structure should be equal to the field VertexSize in the VertexFormat section.\newline
