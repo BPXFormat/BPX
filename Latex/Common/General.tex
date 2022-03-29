@@ -1,5 +1,5 @@
 \section{General}
-The format is based on the idea of a container with a reusable main header that can be extended for the different applications. While each BPX type defines it's own set of sections to load to comply to that given type, an implementation must be able to support any number of additional custom sections, even if those are not used in the application.\newline
+The format is based on the idea of a container with a reusable main header that can be extended for the different applications. While each BPX type defines its own set of sections to load to comply to that given type, an implementation must be able to support any number of additional custom sections, even if those are not used in the application.\newline
 The following assumptions are used:
 \begin{itemize}
     \item A byte is assumed to be 8 bits.
@@ -39,7 +39,7 @@ All data structures exposed in this format specification are padded to comply wi
 All floating points in this format are stored in IEEE 754 format \cite{ieee754}.
 
 \section{Hashing function}
-Some types of BPX requires hashing for some strings. The string hash function to apply is defined by:
+Some types of BPX require hashing for some strings. The string hash function to apply is defined by:
 
 \begin{equation}
 	h_X(0) = 5381

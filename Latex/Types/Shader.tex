@@ -18,7 +18,7 @@ Due to software/hardware restrictions for some rendering platforms, each renderi
 Use a GL target for best compatibility across all 3 major platforms. For highest performance and compatibility, use a VK target.\newline
 The Shader Package exists in two variants: "A" and "P".\newline
 The "A" variant or Assembly is used to store common symbols used by a group of shaders. At least one Assembly must be common to all shaders in a given game. This Shader Assembly is known as the main assembly which is guarenteed to contain common symbols such as the material constant buffer, the model matrix constant, etc.\newline
-The "P" variant or Program is used to store an entire pipeline including it's compiled shaders for a target rendering platform.
+The "P" variant or Program is used to store an entire pipeline including its compiled shaders for a target rendering platform.
 
 \subsection{TypeExt}
 Contains information about the shader package.
@@ -26,7 +26,7 @@ Contains information about the shader package.
 {
 	Assembly & Unsigned & 64 & Hash of shader assembly \\
 	NumSymbols & Unsigned & 16 & Number of symbols \\
-	Target & Unsigned & 8 & Target renering platform \\
+	Target & Unsigned & 8 & Target rendering platform \\
 	Type & Unsigned & 8 & Type of Shader Package \\
 	Reserved & Unspecified & 32 & Blank, always 0 \\
 }
@@ -49,7 +49,7 @@ The hash of the shader assembly name that this shader package is linked against.
 Number of symbols in the symbol table.
 
 \subsubsection{Target}
-The target rendering platform represents which rendering API this package supports:
+The target rendering platform that this package supports. The table below lists all supported rendering platforms:
 \bpxtable{c|c|C}{Name & Value & Notes}
 {
     DX11 & 0x1 & Built for DirectX 11 \cite{DirectX} \\

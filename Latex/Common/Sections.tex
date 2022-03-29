@@ -1,24 +1,24 @@
 \section{Standard Sections}
 
-Additionally any BPX type may use any of the following standard sections specification. The count and usage requirements of such a section is still defined by the type of BPX. The type byte for this section is generally 0xFF (255).
+Additionally, any BPX type may use any of the following standard sections specifications. The count and usage requirements of such a section is still defined by the type of BPX. The type byte for this section is generally 0xFF (255).
 
 \subsection{String section} \label{ssec:Strings}
-A BPX may contain string section(s). As string section is a standardized way to store c-like strings in a BPX.
+A BPX may contain string section(s). A string section is a standardized way to store c-like strings in a BPX.
 
 \subsubsection{Encoding}
 The character encoding of strings in this section must be UTF-8.
 
 \subsubsection{Structure}
 The section is just a contiguous block of null-byte terminated UTF-8 encoded strings.\newline
-Reading a string is done by taking it's offset in the corresponding string section and start reading characters until a null byte is found.\newline
+Reading a string is done by taking its offset in the corresponding string section and starting to read characters until a null byte is found.\newline
 Writing a string is done by taking the UTF-8 encoded bytes of this string and writing the bytes followed by a null byte at the end of the section.
 
 \subsection{Structured Data Section} \label{ssec:Structured}
-The BPX Structured Data format, also called BPXSD, borrows various concepts from JSON. Any Structured Data section begins by an Object (see \ref{sssec:Objects}). The type byte for this section is generally 0xFE (254).\newline
+The BPX Structured Data format, also called BPXSD, borrows various concepts from JSON. All Structured Data sections begin by an Object (see \ref{sssec:Objects}). The type byte for this section is generally 0xFE (254).\newline
 NOTE: This format is not exclusive to BPX: it may be used in other applications like network protocols.
 
 \subsubsection{Type codes}
-Each property property is encoded with a Type byte also called type code.  Below is a table listing all type codes:
+Each property is encoded with a Type byte also called type code.  Below is a table listing all type codes:
 
 \bpxtable{c|c}{Type Code & Type Name}
 {
@@ -57,13 +57,13 @@ Below is a table showing encoding of native types. Native types are considerered
 	Float & 32 & 32 bit floating point number \\
 	Double & 64 & 64 bit floating point number \\
 }
-For simplicity booleans are encoded as 8 bit bytes.
+For simplicity, booleans are encoded as 8 bit bytes.
 
 \subsubsection{Strings}
 Strings are encoded as a UTF-8 null-terminated contiguous block of bytes.
 
 \subsubsection{Objects} \label{sssec:Objects}
-An object is encoded as a contiguous list of properties each defined by a key-value pair. The first byte to read of an object gives the number of properties in this object. The encoding of a property is as follows:
+An object is encoded as a contiguous list of properties each defined by a key-value pair. The first byte to be read of an object gives the number of properties in this object. The encoding of a property is as follows:
 
 \bpxfieldtable
 {
@@ -80,10 +80,10 @@ An object is encoded as a contiguous list of properties each defined by a key-va
 \end{center}
 
 \subsubsection{Debugging}
-As stated in the previous sub-section, the BPXSD Object stores hashes of the property names which means the original name is lost. To mitigate this issue, a BPXSD Object may contain a property, accessed by $Hash("\_\_debug\_\_")$, which stores debugging symbols. This property always points to an array of strings. In order to display property name the implementation is responsible for finding in this debug symbol array the property name string such as $Hash(V_i) = P$ where $V$ is the array of debug symbols (i representing the index in that array) and P the property hash that the implementation whishes to know the original name for.
+As stated in the previous sub-section, the BPXSD Object stores hashes of the property names which means the original name is lost. To mitigate this issue, a BPXSD Object may contain a property, accessed by $Hash("\_\_debug\_\_")$, which stores debugging symbols. This property always points to an array of strings. In order to display property names, the implementation is responsible for finding in this debug symbol array the property name string such as $Hash(V_i) = P$ where $V$ is the array of debug symbols (i representing the index in that array) and P the property hash the implementation is searching for.
 
 \subsubsection{Arrays}
-An array is encoded as a contiguous list of values. The first byte to read of an array gives the number of values in this array.
+An array is encoded as a contiguous list of values. The first byte to be read of an array gives the number of values in this array.
 
 \bpxfieldtable
 {

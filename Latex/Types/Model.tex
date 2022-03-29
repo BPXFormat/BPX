@@ -35,7 +35,7 @@ Contains general information about the 3D model file.
 \end{center}
 
 \subsubsection{ShaderHash}
-Hash of shader package asset virtual path containing to the vertex format of this model.
+The hash of the virtual path of the shader package containing the vertex format of this model.
 
 \subsubsection{SymbolName}
 The symbol name of the vertex format to locate in the shader package identified by the ShaderHash field.
@@ -59,11 +59,11 @@ The header data structure is described in the following table:
 \end{center}
 
 \subsubsection{MaterialHash}
-Hash of material asset virtual path to apply by default to this vertex array.
+The hash of the virtual path of the material asset to be applied as default.
 
 \subsubsection{VertexCount}
 The amount of vertex structures to read after this header.\newline
-\textbf{We remind that all modern hardware support triangles as primitives, so the vertex count should be a multiple of 3}
+\textbf{Note that all modern hardware supports triangles as only primitive, so the vertex count should be a multiple of 3.}
 
 \subsubsection{IndexArray}
 This field is an index in the section header table to an IndexArray that should be used alongside this VertexArray.\newline
@@ -75,11 +75,11 @@ The total size in bytes of the vertex array to use as pre-allocation buffer size
     SA = S \times V
 \end{equation}
 where $SA$ is the total size of the vertex array, $S$ the size of a single vertex structure as given in the VertexFormat asset and $V$ the number of vertices in the array given by the VertexCount field.\newline
-To avoid storing an additional 64 bits field in the header of the VertexArray section this size $SA$ is left to be calculated by the implementing application.
+To avoid storing an additional 64 bits field in the header of the VertexArray section, this size $SA$ is left to be calculated by the implementing application.
 
 \subsection{IndexArray}
-The index array section allows to ommit certain vertices and figure out these vertices at runtime. Instead of writing all vertices for a given model requiring more space to store them, we only store unique vertices, and duplicates are just resolved by matching a vertex index from this section to an actual vertex structure, \textbf{this allows to save storage space and RAM}.\newline
-This section contains a header describing the amount of indices to be found in the array, and an array of 32 bits unsigned integer each representing the index of a vertex in a given vertex array.\newline
+The index array section allows to ommit certain vertices and figure out these vertices at runtime. Instead of writing all vertices for a given model requiring more space to store them, we only store unique vertices, and duplicates are just resolved by matching a vertex index from this section to an actual vertex structure, \textbf{this allows saving of storage space and RAM}.\newline
+This section contains a header describing the amount of indices to be found in the array, and an array of 32 bits unsigned integers, each representing the index of a vertex in a given vertex array.\newline
 Below is a table describing the data structure to expect as header for an IndexArray section:
 \bpxfieldtable
 {
@@ -117,15 +117,15 @@ Each bone in the array following the header is represented by the following data
 Number of bones to expect in the bone array following the header. This number should belong to the interval $[1, 1024]$.
 
 \subsection{Analysis on theoretical bone limit}
-We can give an estimation that human skeleton can be up to 400 bones. Of course most models do not include as many bones to reduce GPU/CPU load.
+We can give an estimation that the human skeleton can contain up to 400 bones. Of course most models do not include as many bones in order to reduce GPU/CPU load.
 \begin{itemize}
-    \item OpenGL, Vulkan and Metal maximum UBO/function constants storage size available to a shader is usualy 64Kb or 65536 bytes
+    \item OpenGL, Vulkan and Metal maximum UBO/function constants storage size available to a shader is usually 64Kb or 65536 bytes
     \item On the official MSDN page \cite{MSDNConstantBuffers} for DirectX the maximum constant buffer size available to a shader is $4096 constants \times 4 \times 32 bits = 4096 constants \times 16 bytes = 65536 bytes$
 \end{itemize}
-UBO, function constants and constant buffer refers to means of variable synchronisation between CPU accessible memory and GPU accessible memory. Vulkan is a special case as it actually supports faster memory called Push Constants, however these constants usually maxes at 256-512 bytes which is impracticable for storing bone transforms. Push constants are typically used to exchange important transformation matrices such as model, view or projection.
-The size of a transformation matrix in 3D space using homogeneous coordinate system \cite{HomogeneousCoordinates} is $32 bits (float) \times 4 \times 4 (4\times4 matrix) = 16 \times 32 bits = 512 bits = 64 bytes$.\newline
-So assuming the lowest size for storing bones in VRAM for GPU processing is $65536$ we can theoretically store up to $1024$ matrices assuming each bone matrix represents 3D space transformations in homogeneous coordinate system ($\frac{65536}{64} = 1024$).\newline
-Which means in order to \textbf{keep compatibility} with as many platforms/rendering apis as possible also taking into account byte indexing, we should store the bone count as a 16 bits integer.
+UBO, function constants and constant buffer refers to means of variable synchronisation between CPU accessible memory and GPU accessible memory. Vulkan is a special case as it actually supports faster memory called Push Constants, however these constants usually max out at 256-512 bytes which is impracticable for storing bone transforms. Push constants are typically used to exchange important transformation matrices such as model, view or projection.
+The size of a transformation matrix in 3D space expressed in homogeneous coordinate system \cite{HomogeneousCoordinates} is $32 bits (float) \times 4 \times 4 (4\times4 matrix) = 16 \times 32 bits = 512 bits = 64 bytes$.\newline
+So, assuming the lowest size for storing bones in VRAM for GPU processing is $65536$ we can theoretically store up to $1024$ matrices, assuming each bone matrix represents 3D space transformations in homogeneous coordinate system ($\frac{65536}{64} = 1024$).\newline
+Which means in order to \textbf{keep compatibility} with as many platforms/rendering apis as possible, also taking into account byte indexing, we should store the bone count as a 16 bits integer.
 
 \subsubsection{Head}
 Initial head position for that specific bone.
@@ -146,7 +146,7 @@ The array should be organized as the following diagram describes:
     \caption{Diagram for organizing frame array}
 \end{figure}
 \newline
-A single animation in a 3D model is usualy a set of actions. For example consider the following set of actions on a 3D human based model:
+A single animation in a 3D model is usualy a set of actions. For example, consider the following set of actions on a 3D human based model:
 \begin{itemize}
     \item move left leg
     \item move right leg
@@ -154,25 +154,25 @@ A single animation in a 3D model is usualy a set of actions. For example conside
     \item move right arm
 \end{itemize}
 This set of actions could be grouped together in one animation named walking or running.\newline
-We call total animation time, the total time needed to express all animations for a single 3D model.
+We call total animation time the total time needed to express all animations for a single 3D model.
 
 \subsubsection{Design decision}
-The majority of mainstream formats represents animated models using key frames, that is storing only determinant changes in the model and interpolating intermediate frames at runtime (either when loading the file or while rendering). In BPX type M each frame is stored in the file to allow for any interpolation method, that is the interpolation if there's any is defined by the exporter of that model. The engine runtime does not have to provide any interpolation function for BPX type M.\newline
-This change grants the \textbf{flexibility} of using any interpolation functions even user defined.
+The majority of mainstream formats represent animated models using key frames. That is, storing only determinant changes in the model and interpolating intermediate frames at runtime (either when loading the file or while rendering). In BPX type M, each frame is stored in the file to allow for any interpolation method. That is, the interpolation, if there is any, is defined by the exporting tool of that model. The engine runtime does not have to provide any interpolation function for BPX type M.\newline
+This change grants the \textbf{flexibility} of using any interpolation function, even user defined.
 
 \subsubsection{Analysis on theoretical required storage size}
 We assume the total size required to store the full FrameArray is given by the following formula:
 \begin{equation}
     F \times B \times B_s
 \end{equation}
-where $F$ is the total amount of frames, $B$ the number of bone updates per frame and $B_s$ is the size of a single bone update structure.\newline
+where $F$ is the total amount of frames, $B$ the number of bone updates per frame and $B_s$ the size of a single bone update structure.\newline
 We previously indicated that a bone update is determined by a transformation matrix in homogeneous coordinate space \cite{HomogeneousCoordinates}, that means it is exactly $512bits$ or $64bytes$.\newline
 Of course in a real application, it is very unlikely to have every frame in the timeline requiring update on every bone.
 \vspace{12pt}
 \newline\textbf{Worst case scenario}\newline
 We assume the total animation time won't exceed $4$ minutes.\newline
 We showed earlier that the theoretical maximum bone limit is $1024$.\newline
-For the frame rate we choose $60$, that means each second $60$ frames in this FrameArray have to be rendered.\newline
+For the frame rate we choose $60$, that means each second, $60$ frames in this FrameArray have to be rendered.\newline
 The total amount of frames to store is $60 \times 4 \times 60 = 14400frames$.\newline
 The total size required to save a model assuming each frame requires dependency over exactly all bones is $14400 \times 1024 \times 512 = 7549747200bits = 943718400bytes$. That is approximately $944Mb$.
 \vspace{12pt}

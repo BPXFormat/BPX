@@ -36,13 +36,13 @@ Currently only the following are supported:
     \item 'C' for Scene
     \item 'P' for Package
 \end{itemize}
-Here the characters between single quotes are to interpreted as their byte representation in ASCII encoding.
+Here the characters between single quotes are to be interpreted as their byte representation in ASCII encoding.
 
 \subsection{Version}
 Version of BPX, currently 2 values are supported:
 \begin{itemize}
-	\item a value of 1 refers to the initial release of this document implemented in SDK 1.0 and 2.0.
-	\item a value of 2 refers to this current revision of the format and is available in SDK 3.0.
+	\item A value of 1 refers to the initial release of this document implemented in SDK 1.0 and 2.0.
+	\item A value of 2 refers to this current revision of the format and is available in SDK 3.0.
 \end{itemize}
 
 \subsection{SectionNum}
@@ -50,7 +50,7 @@ Number of sections in the file.
 
 \subsection{Chksum}
 Checksum of BPX main header and section header table. Compute this value by adding all bytes of data in unsigned format. Consider the value of this field to be \textbf{0} in order to correctly compute the checksum.\newline
-All fields of all section headers in the section header table and of the above header must be filled before computing this checksum otherwise the purpose of this checksum would be defeated.
+All fields of all section headers in the section header table and of the above header must be filled before computing this checksum, otherwise the purpose of this checksum would be defeated.
 
 \subsection{FileSize}
 The file size field corresponds to the total size of the file including the size of this header in bytes after compression.\newline
@@ -58,5 +58,5 @@ This can be used as an additional security over the integrity of the file. It ca
 Currently, the implementation is \textbf{not required to implement this field}. In case an implementation does not implement this field, it should be set to \textbf{0}.
 
 \subsection{TypeExt}
-The TypeExt field provides 128 bits of extension for different kind of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file reducing load time and memory complexity.\newline
-All unused space in this field should be to \textbf{0}.
+The TypeExt field provides 128 bits of extension for different kinds of BPX avoiding having to store or load additional sections in order to get usefull general information about a specific file, reducing load time and memory complexity.\newline
+All unused space in this field should be set to \textbf{0}.

@@ -43,9 +43,9 @@ The expected width of all pixel arrays in power of two form ($2^{k+1}$px where k
 The expected height of all pixel arrays in power of two form ($2^{k+1}$px where k is the stored number).
 
 \subsection{Analysis on texture size storage}
-Certain redering APIs requires that the textures are aligned to a specific implementation defined number of pixels per row. This number also called stride is usualy 8 or a power of two greater than 8.\newline
-By assuming any BPX encoded texture is encoded with power of twos instead of their actual resolution in pixels, we can eliminate the need, in the cases where the implementation uses power of two strides, to run a padding alignment before presenting the texture to this implementation. Also this allows to reduce the field size for storing texture size: instead of using 32 bits or 64 bits we can store a texture size in 8 bits and keep relatively large texture sizes, \textbf{optimizing both storage space and application load speed}. Indeed the maximum texture size in each direction allowed by BPX would be $2^{15 + 1} = 2^{16} = 65536$. Most rendering API implementation do not support such large texture sizes.\newline
-From there one might say that we should then use less than 8 bits. However using less than 8 bits for storing the entire size vector would conflict with hardware indexing as most hardware only indexes 8 bits bytes.
+Certain rendering APIs require that the textures are aligned to a specific implementation defined number of pixels per row. This number, also called stride, is usualy 8 or a power of two greater than 8.\newline
+By assuming any BPX encoded texture is encoded with power of twos instead of their actual resolution in pixels, we can eliminate the need, in cases where the implementation uses power of two strides, to run a padding alignment before presenting the texture to this implementation. This also allows to reduce the field size for storing texture size: instead of using 32 bits or 64 bits we can store a texture size in 8 bits and keep relatively large texture sizes, \textbf{optimizing both storage space and application load speed}. Indeed the maximum texture size in each direction allowed by BPX would be $2^{15 + 1} = 2^{16} = 65536$. Most rendering API implementations do not support such large texture sizes.\newline
+From there one might say that we should then use less than 8 bits. However, using less than 8 bits for storing the entire size vector would conflict with hardware indexing as most hardware only indexes 8 bits bytes.
 
 \subsubsection{Format}
 Available formats:
@@ -75,5 +75,5 @@ Ignore this value if neither of Array or CubeMap flags are set.
 
 \subsection{PixelArray}
 Texture data array encoded as described by texture format.\newline
-If the \textit{Array} value in the header is greater than 0 then a series of \textit{Array} count texture data arrays are saved one after the other encoded with respect to the texture format described by the header.\newline
-In case the CubeMap flag is set the \textit{Array} field in the header should be 6 and this section should contain 6 texture data arrays.
+If the \textit{Array} value in the header is greater than 0 then a series of \textit{Array} count texture data arrays are saved one after the other, encoded with respect to the texture format described by the header.\newline
+In case the CubeMap flag is set, the \textit{Array} field in the header should be 6 and this section should contain 6 texture data arrays.

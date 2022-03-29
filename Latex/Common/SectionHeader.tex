@@ -36,7 +36,7 @@ Size in bytes of the content after compression for a given section excluding Sec
 Size in bytes of the content before compression for a given section excluding Section Header.
 
 \subsubsection{Chksum}
-Checksum of uncompressed data, refer to the Check type of flags in the flags sub-section (\ref{sssec:Flags}) to know how to interpret and generate this field. If no checksum flag is specified, the checksum is ignored.
+Checksum of uncompressed data. Refer to the Check type of flags in the flags sub-section (\ref{sssec:Flags}) to know how to interpret and generate this field. If no checksum flag is specified, the checksum is ignored.
 
 \subsubsection{Type}
 An integer to represent the type of section.
@@ -47,6 +47,6 @@ Bit mask based flags (or flags together). Currently the only supported flags are
 {
     CompressedZlib & 0x1 & Indicates the section is compressed using the zlib \cite{zlib} algorithm \\
     CompressedXZ & 0x2 & Indicates the section is compressed using the XZ \cite{xz} algorithm \\
-    CheckCrc32 & 0x4 & Indicates the section checksum is computed using Crc32 algorithm \\
+    CheckCrc32 & 0x4 & Indicates the section checksum is computed using the Crc32 algorithm \\
     CheckWeak & 0x8 & Indicates the section checksum is computed with the weak variant as used in the BPX Main Header \\
 }
