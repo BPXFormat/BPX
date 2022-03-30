@@ -1,7 +1,7 @@
 \section{BPX Type: Shader Package ('S')}
 
 \subsection{Overview}
-The Shader Package BPX is using 'S' as the type byte of BPX Main Header. This type provides optimized and cross API/platform storage for rendering code intended to be executed on the GPU \cite{GPU}.
+The Shader Package BPX uses 'S' as the type byte of BPX Main Header. This type provides optimized and cross API/platform storage for rendering code intended to be executed on the GPU \cite{GPU}.
 \newline
 Below is a table describing the different sections to be expected in a BPXS:
 \bpxsectiontable
@@ -116,7 +116,7 @@ An offset in the ExtendedData section to load a BPXSD object storing additional 
 \textbf{The value of this field is undefined if the flag ExtendedData is not set.}
 
 \subsubsection{Flags}
-Describes what this symbol is used for. These flags are bit mask that can be or'ed together. Below is a table to list the different available flags:
+Describes what this symbol is used for. Use bit-or operation to combine multiple flags together. Below is a table to list the different available flags:
 \bpxtable{c|c|C}{Name & Value & Notes}
 {
     VertexStage & 0x1 & Indicates the symbol applies to the vertex stage \\
@@ -149,7 +149,7 @@ The register or slot number this symbol should be bound to.\newline
 \textbf{The value of this field is undefined if the flag Register is not set.}
 
 \subsection{ExtendedData}
-Contains all BPXSD extension objects for all symbols that needs additional information.\newline
+Contains all BPXSD extension objects for all symbols that need additional information.\newline
 Refer to \ref{ssec:Structured} for more information about BPXSD encoding/decoding.
 
 \subsection{Strings}

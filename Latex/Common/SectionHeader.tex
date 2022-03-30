@@ -42,7 +42,7 @@ Checksum of uncompressed data. Refer to the Check type of flags in the flags sub
 An integer to represent the type of section.
 
 \subsubsection{Flags} \label{sssec:Flags}
-Bit mask based flags (or flags together). Currently the only supported flags are:
+Section flags. Use bit-or operation to combine multiple flags together. Currently the only supported flags are:
 \bpxtable{c|c|C}{Name & Value & Notes}
 {
     CompressedZlib & 0x1 & Indicates the section is compressed using the zlib \cite{zlib} algorithm \\

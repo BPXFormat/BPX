@@ -1,7 +1,7 @@
 \section{BPX Type: Package ('P')}
 
 \subsection{Overview}
-The Package BPX is using 'P' as the type byte of BPX Main Header. This type provides object packages using the BPX format.
+The Package BPX uses 'P' as the type byte of BPX Main Header. This type provides object packages using the BPX format.
 \newline
 Below is a table describing the different sections to be expected in a BPXP:
 \bpxsectiontable
@@ -11,7 +11,7 @@ Below is a table describing the different sections to be expected in a BPXP:
     Metadata & 254 & No & Yes \\
     Strings & 255 & Yes & Yes \\
 }
-NOTE: The order of Data sections MUST be contiguous. An object is allowed to be divided in multiple sections, however an object header MUST NOT be divided.
+NOTE: The order of Data sections MUST be contiguous. An object is allowed to be divided into multiple sections, however an object header MUST NOT be divided.
 
 \bpxnote{Revision 2 (SDK $\ge$ 3.0)}
 {
@@ -87,14 +87,14 @@ The Data section is used to store one or more objects. Each object begins by an 
 }
 
 \subsubsection{Size}
-The total size of the object to read. When extracting an object which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
+The total size of the object to read. When extracting an object whose size is greater than the remaining bytes in the section, just continue reading from next section, considering it as a continuation of the current one.
 
 \subsubsection{Path}
 The path as a pointer to a null terminated string in the strings section. Used to identify relative extraction location and/or the virtual path of the asset in a rendering application.
 
 \bpxnote{Revision 2 (SDK $\ge$ 3.0)}
 {
-	No object header is to be written inside a Data section anymore. However a Data section can still be used to store multiple objects.
+	No object header is to be written inside a Data section anymore, the ObjectTable section is there to store all object headers. However, a Data section can still be used to store multiple objects.
 
 	\subsection{ObjectTable}
 	The ObjectTable section stores an array of object headers where each object header points to an actual Data section where the start of the object is expected.
@@ -128,7 +128,7 @@ The path as a pointer to a null terminated string in the strings section. Used t
 	\subsubsection{Size}
 	The total size of the object to read. When extracting an object which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
 	\newline
-	\textbf{It is expected to store as many objects as possible in one section in order to enable efficient data compression in case many small objects are packed.}
+	\textbf{In order to enable efficient data compression in case many small objects are packed, It is expected to store as many objects as possible in one section.}
 
 	\subsubsection{Name}
 	The name as a pointer to a null terminated string in the strings section. Used to identify relative extraction location and/or the virtual path of the asset in a rendering application.
