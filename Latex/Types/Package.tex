@@ -126,15 +126,15 @@ The path as a pointer to a null terminated string in the strings section. Used t
 	\end{center}
 
 	\subsubsection{Size}
-	The total size of the object to read. When extracting an object which size is greater than the remaining bytes in the section just continue reading from next section as if the next section was simply a continuation of the current one.
+	The total size of the object to read. When extracting an object whose size is greater than the remaining bytes in the section, just continue reading from next section, considering it as a continuation of the current one.
 	\newline
-	\textbf{In order to enable efficient data compression in case many small objects are packed, It is expected to store as many objects as possible in one section.}
+	\textbf{In order to enable efficient data compression in case many small objects are packed, it is expected to store as many objects as possible in one section.}
 
 	\subsubsection{Name}
 	The name as a pointer to a null terminated string in the strings section. Used to identify relative extraction location and/or the virtual path of the asset in a rendering application.
 
 	\subsubsection{Start}
-	The index of the section to start reading the content of the object. In order to not over-read, refer to the size of the object as given in the object header.
+	The index of the section to start reading the content of the object. In order not to over-read, refer to the size of the object as given in the object header.
 }
 
 \subsection{Strings}
