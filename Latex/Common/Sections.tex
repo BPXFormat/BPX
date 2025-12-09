@@ -158,4 +158,8 @@ Thanks to the fixed type and size allowed by the column header, each row has the
     S = P + \sum_{i=0}^{N} D_i \times L_i
 \end{equation}
 
-With $S$ the total size of a row in bytes, $P$ a padding in bytes, $N$ the number of columns in the table, $D_i$ the size in bytes of the column data type at index $i$ and $L_i$ the array length of the column at index $i$. When the full size of a row is not a power of two, padding is added at the end to ensure the size of a row is always aligned at a power of two.
+With $S$ the total size of a row in bytes, $P$ a padding in bytes, $N$ the number of columns in the table, $D_i$ the size in bytes of the column data type at index $i$ and $L_i$ the array length of the column at index $i$. When the full size of a row is not a power of two, padding is added at the end to ensure the size of a row is always aligned at a power of two. The padding is always initialized to 0.
+
+This padding may be used to store a boolean flag which marks whether the row is freed or not. A value of 1 indicates the row is freed, a value of 0 indicates the row is live. A row marked as free may be reclaimed later when adding more rows into the table. When the row does not include any padding, an additional byte is used, placed after the content of the row and the size of the row is re-calculated assuming this additional byte accounts for a virtual row of type boolean. The process for reclaiming rows is left to the application.
+
+It is forbidden to save a 0-sized row. A row must have at least 1 byte.
